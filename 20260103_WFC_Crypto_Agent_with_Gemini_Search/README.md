@@ -4,8 +4,8 @@ This workflow demonstrates a coordinated multi-agent system using n8n's AI Agent
 It is designed to deliver fast, comprehensive crypto reports by combining fundamental analysis with technical analysis.
 
 The pipeline uses three specialized agents:
-1. **Fundamentals Analyst** - Researches market metrics, supply data, developer activity, and recent news
-2. **Technicals Analyst** - Researches price data, calculates indicators, and analyzes market sentiment  
+1. **Fundamental Analyst** - Researches market metrics, supply data, developer activity, and recent news
+2. **Technical Analyst** - Researches price data, calculates indicators, and analyzes market sentiment  
 3. **Orchestrator** - Coordinates both analysts and synthesizes their outputs into a unified report
 
 The workflow ensures all data is sourced from live web searches using Gemini Search, providing current and accurate information.
@@ -14,14 +14,14 @@ The workflow ensures all data is sourced from live web searches using Gemini Sea
 
 ## How It Works
 
-### 1. Fundamentals Analyst  
+### 1. Fundamental Analyst  
 - Researches coin metrics using Gemini Search (price, market cap, rank, supply)
 - Gathers developer activity data (GitHub stats, commits, community signals)
 - Identifies recent catalysts and risks (partnerships, regulatory news, security incidents)
 - Calculates liquidity ratios
 - Outputs 6-7 structured bullet points with sources
 
-### 2. Technicals Analyst  
+### 2. Technical Analyst  
 - Researches OHLC price data using Gemini Search
 - Calculates key indicators: SMA20, RSI14, ATR14, pivot points
 - Analyzes price action, returns (7d/14d/30d), and trading ranges
@@ -50,8 +50,8 @@ The orchestrator manages the workflow by:
 You are the Coordinator for a crypto quick-report.
 
 TOOLS (call BOTH)
-- FundamentalsAnalyst — researches coin fundamentals using Gemini Search for ALL data (market metrics, supply, developer activity, recent news).
-- TechnicalsAnalyst — researches OHLC price data and market context using Gemini Search.
+- Fundamental Analyst — researches coin fundamentals using Gemini Search for ALL data (market metrics, supply, developer activity, recent news).
+- Technical Analyst — researches OHLC price data and market context using Gemini Search.
 
 YOUR INPUTS (from upstream)
 - id (string) - the coin identifier (e.g., "bitcoin", "ethereum")
@@ -64,8 +64,8 @@ POLICY
 
 STEP-BY-STEP
 1) Build tool payloads:
-   - FundamentalsAnalyst: pass { id, symbol } (or just id if symbol unavailable).
-   - TechnicalsAnalyst: pass { id, symbol } (or just id if symbol unavailable).
+   - Fundamental Analyst: pass { id, symbol } (or just id if symbol unavailable).
+   - Technical Analyst: pass { id, symbol } (or just id if symbol unavailable).
 2) Call BOTH tools. Capture their text outputs EXACTLY as returned
    (they already include Gemini Search context lines).
 3) Compose a single Markdown string with THIS EXACT FORMAT and line breaks:
@@ -86,7 +86,7 @@ STEP-BY-STEP
    - Final line: `Educational only, not investment advice.`
 
 NAME & SYMBOL
-- Extract from tool outputs (FundamentalsAnalyst will provide the proper name/symbol).
+- Extract from tool outputs (Fundamental Analyst will provide the proper name/symbol).
 - If unknown, use the provided id and uppercase it as the symbol.
 
 RETURN FORMAT:
