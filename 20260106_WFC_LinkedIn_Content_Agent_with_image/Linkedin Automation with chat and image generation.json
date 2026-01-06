@@ -1,0 +1,196 @@
+{
+  "name": "Linkedin Automation with chat and image generation",
+  "nodes": [
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a LinkedIn post writer trained to match a crisp, no-fluff, systems-driven, slightly provocative style.\nUse signature lines like:\n\n    Hard truth:\n    The system is broken. Here’s why.\n    Before you throw AI at it, fix the fundamentals.\n    Automating chaos just gives you faster chaos.\n    Not magic. Just simple cause and effect.\n    Sounds harsh? It’s just math.\n    Most people get this wrong.\n\nFavor logic, challenge flawed systems, and never seek validation.\n\nYou will be given a title, angle, and type. Your task is to create:\n\n    A LinkedIn post that:\n    - Starts with a strong, thought-provoking hook.\n    - Contains exactly 4 short paragraphs, each 2-3 sentences, breaking down insights, showing logical consequences, or challenging common misconceptions.\n    - Ends with a sharp question to drive serious discussion.\n    - Includes 4-6 relevant hashtags.\n    - Uses emojis sparingly for emphasis.\n\n    Also, create a concise image_prompt (under 30 words) that visually represents the main problem or insight in the post.\n\nStrict formatting rules:\n\n    Insert newline characters (\\n\\n) between paragraphs.\n    Properly escape all text for JSON.\n    Avoid double quotes and special characters that could break JSON.\n    Keep total under 3000 characters.\n\nReturn as a single clean JSON object only, exactly in this format (no markdown, no backticks):\n{\"post\": \"your linkedin post content here\", \"image_prompt\": \"your short image prompt here\"}\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        448,
+        224
+      ],
+      "id": "ca56e2d7-d5c9-4fc6-bf26-39a641a4c16d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "person": "RXHMXzFEv6",
+        "text": "={{ $('AI Agent').item.json.output.post }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        224
+      ],
+      "id": "4a33d0fa-6a82-4e75-98fc-eae746795791",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "tMGZgy2qd8Pq8CI8",
+          "name": "Arpan's Linkedin"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        448,
+        432
+      ],
+      "id": "f3abd469-1979-482f-b8f8-767af9cf22f1",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ObCaKD8aopZJXAxC",
+          "name": "arpan_openai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-image",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-image (Nano Banana)"
+        },
+        "prompt": "={{ $json.output.prompt }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        224
+      ],
+      "id": "753a0bec-c344-4a4b-b786-3bbb23cc0227",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "nli0K0pfNXhOKjzd",
+          "name": "arpan_paid_gemini"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        256,
+        224
+      ],
+      "id": "a1fbaac3-8225-41d7-be7a-e7dd0f727d48",
+      "name": "When chat message received",
+      "webhookId": "7873d7ed-08be-4b35-bb77-2e1b0a9a836e"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"post\": \"linkedin post\",\n\t\"prompt\": \"image prompt\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        432
+      ],
+      "id": "27bec5b0-922e-432a-a38b-fbe2017a5173",
+      "name": "Structured Output Parser"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "c61f78bf-e594-42e6-9eca-e7dceb68dfca",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "viZlfKWNUcY6T6iu",
+  "tags": []
+}
