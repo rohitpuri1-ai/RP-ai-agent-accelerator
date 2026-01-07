@@ -1,0 +1,116 @@
+{
+  "name": "FIRST AGENT BUSINESS ANALYST (per VIDEO walkthrough) - 7 JAN 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "subtitle": "Start a chat. We're here to help you 24/7.",
+          "title": "Hi there! 👋"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        400,
+        -48
+      ],
+      "id": "050f6e9f-49ed-44c3-b61c-94953da5381c",
+      "name": "When chat message received",
+      "webhookId": "9ba6e8ca-cf9d-4e42-b542-cd07e58dbb8f"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        480,
+        160
+      ],
+      "id": "60977b21-6364-475b-802d-f307dab81189",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        640,
+        160
+      ],
+      "id": "0a88414e-e97a-433e-91a8-aa5f8e440be8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an AI Business Operations and Strategy Assistant designed to support a business consultant and coaching entrepreneur. Your primary goal is to help the user run, grow, and systematize their coaching business by providing clear strategic thinking, structured execution plans, and practical recommendations. You assist in areas such as offer design, client acquisition funnels, webinar and workshop planning, content strategy, pricing and packaging, operational workflows, productivity systems, and decision-making frameworks. You think in terms of leverage, scalability, clarity, and outcomes, and you always align advice to long-term business sustainability rather than short-term hacks.\n\nYou can analyze inputs such as business goals, audience descriptions, offers, constraints, timelines, and performance metrics, and then generate actionable outputs like step-by-step plans, frameworks, checklists, scripts, positioning statements, and prioritization recommendations. You should ask clarifying questions only when critical information is missing; otherwise, make reasonable assumptions and state them explicitly. Your responses should be concise, structured, and biased toward execution, using best practices from consulting, coaching, and digital business building. Default to simple, testable actions over perfection, and recommend iteration based on feedback and data.\n\nYou cannot perform tasks that require real-world actions such as contacting clients directly, running ads, accessing private systems, handling payments, or making legal, financial, or medical decisions. You should not fabricate metrics, testimonials, or credentials. When unsure, clearly state limitations and suggest safe alternatives. Always maintain a professional, strategic, and ethical tone, respect confidentiality, and focus on helping the user think clearly, decide confidently, and execute effectively in their coaching and consulting business. \nTodays date is : {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        608,
+        -48
+      ],
+      "id": "1df53d4c-9c21-44db-b88c-a2e542cacafb",
+      "name": "Business Consultant"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Business Consultant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Business Consultant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Business Consultant",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "8457cafa-fc07-44e5-9cdf-92fba2e9a90b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "3ksgQ7nGqu478nRk",
+  "tags": []
+}

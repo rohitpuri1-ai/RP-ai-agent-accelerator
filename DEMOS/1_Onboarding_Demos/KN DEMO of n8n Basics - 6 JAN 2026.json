@@ -1,0 +1,104 @@
+{
+  "name": "KN DEMO of n8n Basics - 6 JAN 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1833d23a-7efb-4efb-9d71-b2374f5aa1c3",
+      "name": "When chat message received",
+      "webhookId": "956c59d8-7319-4c5a-88d7-2faff104e960"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "967f3b7c-a176-4be8-8e98-81172037b697",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        296,
+        224
+      ],
+      "id": "d7bfc656-9798-4599-9038-ffefa5bb6093",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VdxicPjwCCuZkjh2",
+          "name": "KN Google Gemini - 5 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Basic Agent",
+        "height": 464,
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -96,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "da07bae9-ad34-43c6-8950-821ffd7a93f8",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "c4bc9b05-94bb-4964-a3c3-8321f9cfb469",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "Su6vEOIKElwckhOu",
+  "tags": []
+}

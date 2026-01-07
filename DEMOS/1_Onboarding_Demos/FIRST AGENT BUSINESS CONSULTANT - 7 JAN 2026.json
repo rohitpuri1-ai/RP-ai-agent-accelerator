@@ -1,0 +1,106 @@
+{
+  "name": "FIRST AGENT BUSINESS CONSULTANT - 7 JAN 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        896,
+        432
+      ],
+      "id": "44124a40-ca44-4a5d-a901-a82c5533f350",
+      "name": "When chat message received",
+      "webhookId": "5118d745-5f0d-4e53-8f28-bd7e9b45c712"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are my Business Consultant. \nTodays Date it : {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1120,
+        432
+      ],
+      "id": "38d175e2-8ef1-4050-b215-b1313e1fabac",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        640
+      ],
+      "id": "9d70d2b2-ed65-4395-b9ca-98f60dac8a61",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VdxicPjwCCuZkjh2",
+          "name": "KN Google Gemini - 5 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Basic Agent",
+        "height": 464,
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        816,
+        352
+      ],
+      "typeVersion": 1,
+      "id": "ca9c6122-4efd-4c23-bed6-1783d2d06cd3",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "456534a1-a774-4bc1-b846-8add41f5776b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "8HJ5mWMWeloiQwNz",
+  "tags": []
+}
