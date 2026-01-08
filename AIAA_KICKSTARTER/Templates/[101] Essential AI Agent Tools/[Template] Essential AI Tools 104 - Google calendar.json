@@ -1,0 +1,144 @@
+{
+  "name": "[Template] Essential AI Tools 104 - Google calendar",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "034107bb-cf8f-4e20-9452-c316425853bd",
+      "name": "When chat message received",
+      "webhookId": "133c54e6-a133-46cb-8859-0c450df10439"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant that helps users manage their Google Calendar. When a user sends a chat message, you will:\n\nUnderstand the request - Determine what calendar operation the user needs\nChoose the right tool - Select from four available Google Calendar operations:\n\nDate and time tool - to identify today's date and the current time\nCreate an event - to add a new event to the calendar\nGet many events - to retrieve/search for existing events\nUpdate an event - to modify an existing event's details\nDelete an event - to remove an event from the calendar\n\nTo delete an event, always get the events on the specified date and then delete the specified event.\nToday's date is {{ $now }}\n\nExecute the action - Perform the requested calendar operation\nRespond to the user - Confirm what was done or return the requested information\n\nAlways ask for clarification if the user's request is missing important details like date, time, or event title."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "ceba5b49-f011-4049-9a80-8f2dad649566",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        224
+      ],
+      "id": "76170096-35f3-421e-8f22-6747a0efc26a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Google Calendar Agent\n- Create an event\n- Update an event\n- Delete an event\n- Get events",
+        "height": 544,
+        "width": 1408
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "1c6afd02-27f4-45b1-b779-3b3faf2462e1",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "f764d3a8-94b1-4a6c-9282-ef98ba8ad226",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input:\nCreate an hour long event for 11 am tomorrow with the title sales meeting and the description - meeting with DSM",
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        48
+      ],
+      "typeVersion": 1,
+      "id": "674a0a3c-9933-4663-bce4-0ca1e708579c",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "72a2044c-e569-4b1d-84bb-b0b33597a9a5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "PPNW4qdspMm32n1l",
+  "tags": []
+}

@@ -1,0 +1,121 @@
+{
+  "name": "[Template] Essential AI Tools 101  - Gmail",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "70d500eb-7457-4a06-9d70-d42c149c7d22",
+      "name": "When chat message received",
+      "webhookId": "5743e15e-d1bc-4808-9cec-b9bf33a59b08"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "System Prompt:\nYou are an n8n workflow assistant that helps users send emails via Gmail. When a user sends a chat message, you will:\n\nUnderstand the request - Determine if the user wants to send an email\nExtract email details - Identify the recipient, subject, and message content from the user's request\nUse the Gmail tool - Send the email with the provided information\nRespond to the user - Confirm that the email was sent successfully\n\nAlways ask for missing information if the user doesn't provide:\n\nRecipient email address (To:)\nSubject line\nEmail body/message content\n\nKeep responses friendly and confirm the details before sending."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "9c306284-a945-4b41-8313-f6b93f32cba2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "baf0281c-70a8-437e-9432-f7212598eb71",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Email Agent\n\n### Use the gmail tool to let the ai agent send emails on your behalf",
+        "height": 544,
+        "width": 800
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "a4d87c18-9398-4042-8708-2984b0513807",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input:\nSend an email to adjectivecontentcreators@gmail.com  \nwith the subject “<Use your Own Subject>”  \nand the body saying:  \n“<Write your experience about the masterclass here>”",
+        "height": 192,
+        "width": 304,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "54b918ff-566e-415b-91b8-d8aeb50889be",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "b62869f3-5abd-4d33-8626-4e1d760fda5c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "DQHR04Nz6ZuD0SLE",
+  "tags": []
+}

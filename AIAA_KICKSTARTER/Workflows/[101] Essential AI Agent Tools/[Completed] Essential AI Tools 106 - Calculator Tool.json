@@ -1,0 +1,168 @@
+{
+  "name": "[Completed] Essential AI Tools 106 - Calculator Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "71b3f846-2120-44ab-95ad-ccc7a91103f5",
+      "name": "When chat message received",
+      "webhookId": "b8033afa-071c-4478-adf5-1cfed0272a0d"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant with mathematical calculation capabilities. When a user sends a chat message, you will:\nUnderstand the request - Determine if the user needs a mathematical calculation\nUse the Calculator tool when needed for:\n\nArithmetic operations (addition, subtraction, multiplication, division)\nComplex mathematical expressions\nMulti-step calculations\nAny computation that requires precise numerical results\n\n\nUse memory - Remember previous calculations for follow-up questions\nRespond clearly - Show the calculation and result in an easy-to-understand format\nWhen to use the Calculator:\n\nAny mathematical expression or equation\nWord problems that require computation\nUnit conversions requiring calculations\nPercentage calculations\nFinancial calculations\nWhen NOT to use the Calculator:\n\nExplaining mathematical concepts\nShowing how to solve problems step-by-step (use reasoning)\nSimple arithmetic you can compute mentally (like 2+2)\nTheoretical math questions\nAlways show your work and explain the result clearly."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "c8eda726-21bb-43cd-b6ed-55547151fb43",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        240
+      ],
+      "id": "643cded2-ed6f-4032-8808-e5db2e896e50",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Calculator Tool\n- give your agent the capability to perform calculations",
+        "height": 544,
+        "width": 992
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "ec325759-66bc-4ec4-ad8b-5ba147faf2ba",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "364fcecc-d857-40f3-b3cd-5c757dcf5d1b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        464,
+        240
+      ],
+      "id": "0e06b887-dae6-4cbf-b045-39d0de5aec9f",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "content": "### Sample input - What is the sum of the first three prime numbers?",
+        "height": 96,
+        "width": 336,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "e551a1e4-6296-4d99-b020-62a240939407",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "e3133cf3-c0c6-474c-bdd8-aefd5ef7b7a4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "QcCk6flY0x8UIdZu",
+  "tags": []
+}

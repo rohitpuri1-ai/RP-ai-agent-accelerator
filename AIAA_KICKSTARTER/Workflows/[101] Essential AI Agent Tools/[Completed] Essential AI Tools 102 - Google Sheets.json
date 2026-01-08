@@ -1,0 +1,336 @@
+{
+  "name": "[Completed] Essential AI Tools 102 - Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c74401fb-0692-4d7c-bbb8-ad49a5b8f49f",
+      "name": "When chat message received",
+      "webhookId": "b77a78a5-2f92-40f4-9167-cd8c963f6751"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant that helps users interact with Google Sheets. When a user sends a chat message, you will:\n\nUnderstand the request - Determine what the user wants to do with their spreadsheet\nChoose the right tool - Select from three available Google Sheets operations:\n\nGet rows - to read/retrieve data from a sheet\nAppend row - to add new data to the bottom of a sheet\nDelete rows - to remove data from a sheet\nUpdate rows - to update data in the sheet\n\nWhenever you get the delete rows command, first get rows to identify which row is being referred to and then proceed to delete the specified row.\n\nExecute the action - Perform the requested operation\nRespond to the user - Confirm what was done or return the requested data\n\nAlways ask for clarification if the user's request is ambiguous. Keep responses concise and helpful."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "69a8c2f3-0e2f-40b2-a72e-19be1e2f070f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "content": "## Google Sheet Agent\n- Create a Row\n- Update a Row\n- Delete a Row\n- Read Data",
+        "height": 544,
+        "width": 1264
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "04ed2777-dd7d-4c1a-b8ce-5a0574c632f4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4",
+          "mode": "list",
+          "cachedResultName": "AIAAKS_Google_Sheets_CRUD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        480,
+        224
+      ],
+      "id": "a086ccd1-36d9-40fd-a2b5-72cadebe70f8",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0kpCoqMBvOIgPZKB",
+          "name": "KN DSM Google Sheets - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4",
+          "mode": "list",
+          "cachedResultName": "AIAAKS_Google_Sheets_CRUD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Lead Status",
+              "displayName": "Lead Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        224
+      ],
+      "id": "f12c5db4-2933-416c-9d0a-34b790d0333d",
+      "name": "Append row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0kpCoqMBvOIgPZKB",
+          "name": "KN DSM Google Sheets - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4",
+          "mode": "list",
+          "cachedResultName": "AIAAKS_Google_Sheets_CRUD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit#gid=0"
+        },
+        "startIndex": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start_Row_Number', ``, 'number') }}",
+        "numberToDelete": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Number_of_Rows_to_Delete', ``, 'number') }}"
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        848,
+        224
+      ],
+      "id": "070e28d7-ce33-4cb3-bd3d-d0165c6fa6c7",
+      "name": "Delete rows or columns from sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0kpCoqMBvOIgPZKB",
+          "name": "KN DSM Google Sheets - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        224
+      ],
+      "id": "c9c135a9-61f6-454d-b227-b1c3e9328211",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        0,
+        224
+      ],
+      "id": "582d3730-57ee-412b-82d3-65508a5b2566",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input\n- Delete the last row\n- give me a summary of the dataset",
+        "height": 112,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        48
+      ],
+      "typeVersion": 1,
+      "id": "37872a6b-0d28-4a26-986c-b801bc9fcbe9",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete rows or columns from sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "0a03e6d3-8e6c-4083-a7d5-f99b3f744f91",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "j557HmALmz2RkgDm",
+  "tags": []
+}

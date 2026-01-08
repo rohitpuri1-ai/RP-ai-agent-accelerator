@@ -1,0 +1,170 @@
+{
+  "name": "[Completed] Essential AI Tools 108 - Date and Time Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c2576303-ba4d-45c0-ba86-f5c9055f5147",
+      "name": "When chat message received",
+      "webhookId": "3d5e8d9f-8d0d-4c00-8261-920a1eec6dcc"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant with calculation and time awareness capabilities. When a user sends a chat message, you will:\n\nUnderstand the request - Determine what the user needs\nChoose the right tool(s):\n\nDate & Time - Get current date, current time, or specific dates\nCalculator - Perform ALL mathematical operations including date arithmetic\n\n\nUse memory - Remember previous calculations and conversation context\nRespond clearly - Provide accurate answers in a natural, conversational way\n\nTool Usage Guide:\nUse Date & Time ONLY for:\n\nGetting current date: \"What's today's date?\"\nGetting current time: \"What time is it?\"\nGetting day of the week: \"What day is January 15th?\"\n\nUse Calculator for:\n\nAll math operations: \"What's 156 × 23?\"\nPercentages: \"Calculate 15% of 250\"\nComplex expressions: \"(45 + 30) × 2 - 10\"\nDate differences: \"How many days until Christmas?\" or \"Days between two dates\"\nTime calculations: \"Hours until 5 PM\" or \"Minutes between times\"\n\nFor date/time calculations, follow this pattern:\n\nUse Date & Time to get the current date if needed\nUse Calculator to compute the difference or arithmetic\nExample: \"How many days until Christmas?\"\n\nGet today's date using Date & Time tool\nCalculate days between today and December 25th using Calculator tool\nReturn the result\n\nAlways show your work for calculations and provide clear, helpful responses."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "4ba087b3-b839-4b32-bcb9-3989bd0dd8de",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        208,
+        240
+      ],
+      "id": "f9bb8cf3-9d60-4deb-be89-ddaf204889e5",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## AI Agent Tool\n- give your agent the capability to use the date time tool to identify dates",
+        "height": 512,
+        "width": 976
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -272,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "3b3f407b-5f26-4924-a33a-d13425021755",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        240
+      ],
+      "id": "c027ceb3-238c-44fb-bc0b-bb1a0a1c6d10",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "outputFieldName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Output_Field_Name', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        496,
+        240
+      ],
+      "id": "506b0a90-5aa2-4032-bc2e-ab5944fb42fd",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "content": "### Sample input\nWhat is the date today?",
+        "height": 80,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        32
+      ],
+      "typeVersion": 1,
+      "id": "e98ffb3e-dcb2-44f5-bd7e-c9dbcadedea2",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "28c5faaa-70cb-491b-b398-787372c5cb18",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "oH9Ts2ZUTBRJGRql",
+  "tags": []
+}

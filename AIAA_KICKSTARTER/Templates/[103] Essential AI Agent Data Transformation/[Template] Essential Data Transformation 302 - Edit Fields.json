@@ -1,0 +1,115 @@
+{
+  "name": "[Template] Essential Data Transformation 302 - Edit Fields",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "CRM Data",
+        "formFields": {
+          "values": [
+            {
+              "fieldName": "What is the name of the customer?",
+              "fieldLabel": "What is the name of the customer?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the phone number?",
+              "fieldLabel": "What is the phone number?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the email?",
+              "fieldLabel": "What is the email?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the location?",
+              "fieldLabel": "What is the location?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the lead status?",
+              "fieldLabel": "What is the lead status?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Hot"
+                  },
+                  {
+                    "option": "Warm"
+                  },
+                  {
+                    "option": "Cold"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bf8ca7d9-e82b-4dcc-abe4-ff34d0a57b5d",
+      "name": "On form submission",
+      "webhookId": "86af642b-76e0-4ced-ba2a-26580c005f6a"
+    },
+    {
+      "parameters": {
+        "content": "### How do you change the names of the fields inside N8N?",
+        "height": 320,
+        "width": 928,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "b94698bb-c50f-4819-a7ff-4b613604fc6e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Edit fields helps you change field names",
+        "height": 224,
+        "width": 192,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "6f096eec-b309-495a-98c3-87e7580d7b64",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "485f7245-74d1-4c8f-817f-34bdc8fead54",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "ZGAxaY6QtckBe5lt",
+  "tags": []
+}

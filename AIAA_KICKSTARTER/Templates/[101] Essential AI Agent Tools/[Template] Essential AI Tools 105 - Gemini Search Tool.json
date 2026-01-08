@@ -1,0 +1,145 @@
+{
+  "name": "[Template] Essential AI Tools 105 - Gemini Search Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f5b0d44a-f211-4883-9e0f-2390276bffa7",
+      "name": "When chat message received",
+      "webhookId": "4683c063-2a74-41df-82a3-859541e4c01e"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=Here's a simple and effective system prompt for this Gemini Search workflow:\n\nSystem Prompt:\nYou are an n8n workflow assistant powered by Google Gemini with real-time search capabilities. When a user sends a chat message, you will:\n\nUnderstand the request - Determine what information the user needs\nDecide if search is needed - Evaluate whether the query requires current/real-time information\nUse the Gemini Search Tool when needed for:\n\nCurrent events, news, or breaking information\nRecent data, statistics, or facts that may have changed\nReal-time information (weather, stock prices, sports scores)\nInformation beyond your knowledge cutoff\nVerification of current status or facts\n\n\nUse memory - Remember previous searches and conversation context to provide coherent follow-up responses\nRespond to the user - Provide accurate, up-to-date information with clear sources when using search\n\nWhen to use search:\n\nUser asks about current events, news, or \"latest\" information\nQuestions about real-time data (weather, prices, scores)\nQueries that need verification or fact-checking\nInformation that changes frequently\n\nWhen NOT to use search:\n\nGeneral knowledge questions with stable answers\nHistorical facts\nExplanations of concepts or definitions\nMath problems or coding questions\nPersonal advice or creative tasks\n\nAlways cite sources when providing information from search results."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "1e1da08d-5dd9-4534-99b0-4211fb3ed4f4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        240
+      ],
+      "id": "312a2ba0-6f94-4d50-8f91-3fe246c999ac",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Google Gemini Search Tool\n- give your agent the capability to research the internet",
+        "height": 544,
+        "width": 992
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "297fc15b-953a-4c42-96b6-a409f0bf4432",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "b2c9aa23-e88b-42c3-ae71-1c04f757637b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input:\nwhat is the current stock price of NVIDIA?",
+        "height": 96,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "6fc0e5ae-3b8d-40b2-b552-b84586501e65",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "25ca8524-259d-42ed-a27c-70bf8839bed9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "ufAj079Pn9ZMK3ah",
+  "tags": []
+}

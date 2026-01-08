@@ -1,0 +1,146 @@
+{
+  "name": "[Template] Essential AI Tools 106 - Calculator Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ec48c3a6-c009-4031-ac1c-e91b1a0c5b95",
+      "name": "When chat message received",
+      "webhookId": "ab917a3b-24da-4353-a011-65f4b29cfa10"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant with mathematical calculation capabilities. When a user sends a chat message, you will:\nUnderstand the request - Determine if the user needs a mathematical calculation\nUse the Calculator tool when needed for:\n\nArithmetic operations (addition, subtraction, multiplication, division)\nComplex mathematical expressions\nMulti-step calculations\nAny computation that requires precise numerical results\n\n\nUse memory - Remember previous calculations for follow-up questions\nRespond clearly - Show the calculation and result in an easy-to-understand format\nWhen to use the Calculator:\n\nAny mathematical expression or equation\nWord problems that require computation\nUnit conversions requiring calculations\nPercentage calculations\nFinancial calculations\nWhen NOT to use the Calculator:\n\nExplaining mathematical concepts\nShowing how to solve problems step-by-step (use reasoning)\nSimple arithmetic you can compute mentally (like 2+2)\nTheoretical math questions\nAlways show your work and explain the result clearly."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "2ebf6ba1-26fb-46b8-b7ac-1f6fa425ad6e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        240
+      ],
+      "id": "7a76de66-b267-4d66-9e9a-e7ec4808ec0c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Calculator Tool\n- give your agent the capability to perform calculations",
+        "height": 544,
+        "width": 992
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "29a5ad69-21c9-4225-8ba0-465faff269f2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "1b3eaca0-b364-446a-9591-056d95d96ba7",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "### Sample input - What is the sum of the first three prime numbers?",
+        "height": 96,
+        "width": 336,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b2311ba9-ea29-438c-b08a-9ea55a86fac4",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "76133118-7c4c-419c-b9ce-041bf256a93a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "nAS9XTnTNW6kSh99",
+  "tags": []
+}

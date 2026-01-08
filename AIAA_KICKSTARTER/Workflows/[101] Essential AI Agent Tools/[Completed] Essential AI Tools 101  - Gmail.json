@@ -1,0 +1,159 @@
+{
+  "name": "[Completed] Essential AI Tools 101  - Gmail",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ced84b89-b133-4fd9-88e5-a31e207b15be",
+      "name": "When chat message received",
+      "webhookId": "8192b83f-0edf-4d09-a103-b4f0087ca983"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "System Prompt:\nYou are an n8n workflow assistant that helps users send emails via Gmail. When a user sends a chat message, you will:\n\nUnderstand the request - Determine if the user wants to send an email\nExtract email details - Identify the recipient, subject, and message content from the user's request\nUse the Gmail tool - Send the email with the provided information\nRespond to the user - Confirm that the email was sent successfully\n\nAlways ask for missing information if the user doesn't provide:\n\nRecipient email address (To:)\nSubject line\nEmail body/message content\n\nKeep responses friendly and confirm the details before sending."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8816505e-ca0c-41c1-ba54-321e728a4e13",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "1ce708cb-e5fb-487d-8a89-631a0c54ea20",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Kunaal Naik"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        208
+      ],
+      "id": "9c5a629d-1eca-4f28-a522-d2f665ce7a15",
+      "name": "Send a message in Gmail",
+      "webhookId": "3734a427-e223-454c-a839-9bda62cc0cb2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Cndjp7TMGqVqOflr",
+          "name": "KN DSM Gmail - 3 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Email Agent\n\n### Use the gmail tool to let the ai agent send emails on your behalf",
+        "height": 544,
+        "width": 800
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "2df04147-302c-463c-af53-553de62e1cf2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input:\nSend an email to adjectivecontentcreators@gmail.com  \nwith the subject “<Use your Own Subject>”  \nand the body saying:  \n“<Write your experience about the masterclass here>”",
+        "height": 192,
+        "width": 304,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "b0e7ab4c-21c6-4803-9178-b3f8b2dc5b81",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "11745905-476c-43e4-86af-6a8bcd448ee7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "mxiXPUdbSv75r4ie",
+  "tags": []
+}

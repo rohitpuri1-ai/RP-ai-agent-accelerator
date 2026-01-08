@@ -1,0 +1,166 @@
+{
+  "name": "[Template] Essential Trigger 203 - On Schedule",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "cf052a92-41e2-49ca-8f3a-edaa6a177fde",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are Crypto Analyst who provides Daily Summary most essential news. ",
+        "options": {
+          "systemMessage": "You are Crypto Analyst, Use the Google Search Tool to extract the information. Generate the Report in HTML format for emailing. "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "86943e9c-c3ad-4e89-89e5-06b1cdd36d6e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "7c2df8eb-6ed8-4020-9842-32f712a2b0a5",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to extract information about Crypto Market Sentiment",
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "enableUrlContext": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Enable_URL_Context_Tool', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-gemini-search.geminiSearchToolTool",
+      "typeVersion": 1,
+      "position": [
+        448,
+        208
+      ],
+      "id": "c6ad7eb2-ca9d-4a41-b303-7855f036b18a",
+      "name": "Gemini Search Tool",
+      "credentials": {
+        "geminiSearchApi": {
+          "id": "7az0sro57GIxXbvr",
+          "name": "KN Gemini Tool API - 4 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### How to start a workflow at a certain time?",
+        "height": 496,
+        "width": 912
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "3e1e4509-b0b7-444e-a5ab-0b90cbdc5cd4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Use Schedule Trigger",
+        "height": 176,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "d1049286-a9b4-4bb1-91a7-498ca9bfcaaa",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "57e0a503-bc4a-4333-a6f4-2cd23161a40e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "hINPzCtSQ6b1bA5g",
+  "tags": []
+}

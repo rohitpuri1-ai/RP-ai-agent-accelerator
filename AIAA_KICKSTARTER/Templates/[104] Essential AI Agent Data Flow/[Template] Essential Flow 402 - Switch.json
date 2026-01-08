@@ -1,0 +1,111 @@
+{
+  "name": "[Template] Essential Flow 402 - Switch",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -272,
+        80
+      ],
+      "id": "76b88000-d66b-4431-913e-b9fe63997b36",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4",
+          "mode": "list",
+          "cachedResultName": "AIAAKS_Google_Sheets_CRUD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -48,
+        80
+      ],
+      "id": "053c541d-6bfe-4279-8b92-8efa0e578341",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0kpCoqMBvOIgPZKB",
+          "name": "KN DSM Google Sheets - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Filter values based on two or more conditions using the switch node",
+        "height": 368,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        128,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "f57b48a2-b277-4235-88ce-afb2b3498a52",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Divide all the different types of leads into separate sheets",
+        "height": 592,
+        "width": 976,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "82d17413-91bd-4162-b45b-bf91fa0ebafa",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "77e1478d-bf48-4ece-88d1-c93eb9f5c68c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "xJYOY5306z0I0v3E",
+  "tags": []
+}

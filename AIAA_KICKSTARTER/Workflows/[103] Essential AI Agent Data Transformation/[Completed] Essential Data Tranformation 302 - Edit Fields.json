@@ -1,0 +1,273 @@
+{
+  "name": "[Completed] Essential Data Transformation 302 - Edit Fields",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "CRM Data",
+        "formFields": {
+          "values": [
+            {
+              "fieldName": "What is the name of the customer?",
+              "fieldLabel": "What is the name of the customer?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the phone number?",
+              "fieldLabel": "What is the phone number?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the email?",
+              "fieldLabel": "What is the email?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the location?",
+              "fieldLabel": "What is the location?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "What is the lead status?",
+              "fieldLabel": "What is the lead status?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Hot"
+                  },
+                  {
+                    "option": "Warm"
+                  },
+                  {
+                    "option": "Cold"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c10a2f65-9e36-4eca-9f6b-5a6a527d800a",
+      "name": "On form submission",
+      "webhookId": "f4244e31-46f4-40e2-83f4-9c0e0d96258e"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4",
+          "mode": "list",
+          "cachedResultName": "AIAAKS_Google_Sheets_CRUD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Customer Name": "={{ $json['Customer name'] }}",
+            "Phone": "={{ $json['Phone Number'] }}",
+            "Email": "={{ $json.Email }}",
+            "Location": "={{ $json.Location }}",
+            "Lead Status": "={{ $json['Lead Status'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Location",
+              "displayName": "Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Status",
+              "displayName": "Lead Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        432,
+        0
+      ],
+      "id": "5ccbfd5f-8479-4f92-9f7e-32c2382b626e",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0kpCoqMBvOIgPZKB",
+          "name": "KN DSM Google Sheets - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2a4ce21c-860f-4d8a-8ba8-ff440be062ae",
+              "name": "Customer name",
+              "value": "={{ $json['What is the name of the customer?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9890e8d4-cf2c-4102-8c47-8af6b29ca4b3",
+              "name": "Phone Number",
+              "value": "={{ $json['What is the phone number?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f81c8dd8-4483-40ad-96e3-7adc26f502ab",
+              "name": "Email",
+              "value": "={{ $json['What is the email?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c8637810-5e9f-4069-9ce4-225257cc5d76",
+              "name": "Location",
+              "value": "={{ $json['What is the location?'] }}",
+              "type": "string"
+            },
+            {
+              "id": "096d9084-2fc3-4b26-801c-76f235687de6",
+              "name": "Lead Status",
+              "value": "={{ $json['What is the lead status?'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d7634b81-b8db-4536-8e08-e83022b41104",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "### How do you change the names of the fields inside N8N?",
+        "height": 320,
+        "width": 928,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "9a7c8719-9849-4709-bbf4-d2adbed49b5a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Edit fields helps you change field names",
+        "height": 224,
+        "width": 192,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        160,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "1149de49-2dec-4a05-bfc0-fa82d26c6a55",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "33486266-100d-4e19-8921-22ce51d0049e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "B7pzrnMIOKMVkOGX",
+  "tags": []
+}

@@ -1,0 +1,206 @@
+{
+  "name": "[Completed] Essential Data Tranformation 304 - Limit",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "7411b91e-d9dc-43e6-b44a-6a88d2509956",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4",
+          "mode": "list",
+          "cachedResultName": "AIAAKS_Google_Sheets_CRUD",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PHUlZU37Bxfn-sEjNhNPK56F_ueDo3AOXhF66V5ODX4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -32,
+        0
+      ],
+      "id": "24a68635-3e3f-4874-a8b3-22d7d0d83db5",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "0kpCoqMBvOIgPZKB",
+          "name": "KN DSM Google Sheets - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "86963ad1-0a12-46e8-bffd-3ae79102bb9f",
+              "leftValue": "={{ $json['Lead Status'] }}",
+              "rightValue": "Hot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        176,
+        0
+      ],
+      "id": "9a4291aa-ba73-41ea-9955-7e53d5a7538b",
+      "name": "Filter"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        384,
+        0
+      ],
+      "id": "0a33ebbb-6696-4310-b1ac-1d5aa0d1cca0",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Welcome",
+        "message": "Product Details",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "3e2c97ed-e3c0-4be2-95e9-08c3469a8d8b",
+      "name": "Send a message",
+      "webhookId": "8f7fc072-7e26-4887-8329-0acb250fcbcb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2ZsHBK4LbGsvRSht",
+          "name": "KN DSM Gmail - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### How to filter a limited number of values based on a certain criteria?",
+        "height": 352,
+        "width": 1088
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -304,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "96aa0645-523e-48fb-b9ba-70451d281787",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Limit nodes limits the number of outputs of a node",
+        "height": 320,
+        "width": 192,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        336,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "461484da-46be-4cd0-a3a2-f58f47885416",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "066f15d4-6ddf-419e-9215-e4494f6d76e0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "ATCl6eIoxHIajNfg",
+  "tags": []
+}

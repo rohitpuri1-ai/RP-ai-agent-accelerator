@@ -1,0 +1,114 @@
+{
+  "name": "[Template] Essential Trigger 204 - On Form Submission",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "CRM Data",
+        "formFields": {
+          "values": [
+            {
+              "fieldName": "Customer Name",
+              "fieldLabel": "What is the name of the customer?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Phone Number",
+              "fieldLabel": "What is the phone number?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Email",
+              "fieldLabel": "What is the email?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Location",
+              "fieldLabel": "What is the location?",
+              "requiredField": true
+            },
+            {
+              "fieldName": "Lead Status",
+              "fieldLabel": "What is the lead status?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Hot"
+                  },
+                  {
+                    "option": "Warm"
+                  },
+                  {
+                    "option": "Cold"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c1b89338-876d-4dcf-ab40-061b76f38d33",
+      "name": "On form submission",
+      "webhookId": "82f4fc4b-ff51-47b4-801e-1ccea687c221"
+    },
+    {
+      "parameters": {
+        "content": "### How to start a workflow when a form is submitted?",
+        "height": 320,
+        "width": 608
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "861a332e-8fc3-4bf4-9542-d61e5b8636af",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Use a Form Trigger",
+        "height": 240,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "e5a835c3-05ae-4526-8456-ee599019c004",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "2a90a84d-f095-4bd6-a353-fc1b8f80f491",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "03zzb8aCWy5oNogK",
+  "tags": []
+}

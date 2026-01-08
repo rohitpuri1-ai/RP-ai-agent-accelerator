@@ -1,0 +1,142 @@
+{
+  "name": "[Template] Essential AI Tools 103 - Google docs",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ad4d58e5-8d6e-4dc4-bd64-dd3911b7190b",
+      "name": "When chat message received",
+      "webhookId": "3147975e-bd3e-463e-8044-d050f48c5325"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant that helps users manage their Google Docs documents. When a user sends a chat message, you will:\n\nUnderstand the request - Determine what document operation the user needs\nChoose the right tool - Select from three available Google Docs operations:\n\nCreate a document - to create a new document with content\nGet a document - to retrieve/read content from an existing document\nUpdate a document - to modify content in an existing document\n\n\nUse memory - Remember document IDs and previous conversations to provide context-aware assistance\nExecute the action - Perform the requested document operation\nRespond to the user - Confirm what was done or return the requested content\n\nImportant formatting rules:\n\nAfter creating or updating a document, always provide the document link in markdown format: [URL](URL) to make it clickable\nUse clear, action-oriented language\nRemember document IDs from previous operations to make follow-up requests easier\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "a3d11ea8-1cc7-4f78-a705-7a5df629bc97",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        224
+      ],
+      "id": "afd2ebd9-c005-48f6-8b14-ded2f582f59a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Google Docs Agent\n- Create a document\n- Update a document\n- Get a document",
+        "height": 544,
+        "width": 1312
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "6ef600b4-58b9-4ab1-a967-e7294bc539cb",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        224
+      ],
+      "id": "be861afe-e350-4fb6-97d8-d73ea2d8ffef",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input\nCreate a document titled N8N and update it with an article on why N8N is better than make.com",
+        "height": 144,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -368,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "a0310758-61fe-48d2-abf4-0f3a10293bfc",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "fc9f067c-e155-469d-bd7d-61761d5d9368",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "tFTlBaEj6cXR2rkm",
+  "tags": []
+}

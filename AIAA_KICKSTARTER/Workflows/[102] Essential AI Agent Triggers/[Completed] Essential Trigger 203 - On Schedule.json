@@ -1,0 +1,198 @@
+{
+  "name": "[Completed] Essential Trigger 203 - On Schedule",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "adjectivecontentcreators@gmail.com",
+        "subject": "=Crypto Report - {{ $now }}",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Kunaal Naik"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        0
+      ],
+      "id": "9aa066ed-8c1b-4ad9-8280-eeba812007e0",
+      "name": "Send a message",
+      "webhookId": "aae4cf84-f9f8-4d4d-82eb-677d948d8f65",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Cndjp7TMGqVqOflr",
+          "name": "KN DSM Gmail - 3 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "577460b7-350c-40e2-96e1-71990020e5dd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are Crypto Analyst who provides Daily Summary most essential news. ",
+        "options": {
+          "systemMessage": "You are Crypto Analyst, Use the Google Search Tool to extract the information. Generate the Report in HTML format for emailing. "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3b1e0664-922f-42bf-9a9e-7395cce42b0c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "a8b26027-ec02-4427-a02d-3cbdebe00513",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to extract information about Crypto Market Sentiment",
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "enableUrlContext": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Enable_URL_Context_Tool', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-gemini-search.geminiSearchToolTool",
+      "typeVersion": 1,
+      "position": [
+        448,
+        208
+      ],
+      "id": "57f939d3-8ee3-4516-b0dd-aedddeb94faf",
+      "name": "Gemini Search Tool",
+      "credentials": {
+        "geminiSearchApi": {
+          "id": "7az0sro57GIxXbvr",
+          "name": "KN Gemini Tool API - 4 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### How to start a workflow at a certain time?",
+        "height": 496,
+        "width": 912
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "a585491a-a3ac-4888-81a2-88a2dd6fa9ce",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Use Schedule Trigger",
+        "height": 176,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "d2de160c-986a-4705-9bde-e9ca831b555b",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "0c7ff27b-8322-416b-955f-c78a8433e7f8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "cJzHQW2M3y8nrBfH",
+  "tags": []
+}

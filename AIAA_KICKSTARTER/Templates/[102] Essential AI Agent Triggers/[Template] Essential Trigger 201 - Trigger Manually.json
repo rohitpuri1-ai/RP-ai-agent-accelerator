@@ -1,0 +1,67 @@
+{
+  "name": "[Template] Essential Trigger 201 - Trigger Manually",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        64
+      ],
+      "id": "9085b81c-02b9-4837-bfe1-42961487e751",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "### How to start a workflow manually?",
+        "height": 320,
+        "width": 608
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "a17dd974-caf8-488b-930b-1717eebf1bf7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Use \"When clicking \"Execute Workflow\"\" or Manual Trigger",
+        "height": 240,
+        "width": 288,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -112,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "a775b21f-fde0-4a17-961a-ba63be1400cc",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "2a42aae7-4072-419f-98c9-9e196373869c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "4nd5uSoTZcnbCnIF",
+  "tags": []
+}

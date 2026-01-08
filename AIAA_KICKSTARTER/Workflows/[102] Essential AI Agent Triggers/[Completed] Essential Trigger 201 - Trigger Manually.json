@@ -1,0 +1,100 @@
+{
+  "name": "[Completed] Essential Trigger 201 - Trigger Manually",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        64
+      ],
+      "id": "c5028f67-b951-44ee-91fd-c25586c221c5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "sendTo": "adjectivecontentcreators@gmail.com",
+        "subject": "Hello World!",
+        "emailType": "text",
+        "message": "How are you?",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Kunaal Naik"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        64
+      ],
+      "id": "64f2ae24-585c-4f7c-97b7-760ba4914165",
+      "name": "Send a message",
+      "webhookId": "29205fe5-a236-4e3b-a14c-e046f4802bf3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Cndjp7TMGqVqOflr",
+          "name": "KN DSM Gmail - 3 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### How to start a workflow manually?",
+        "height": 320,
+        "width": 608
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "64c52944-c834-44de-b66e-bb4af3593bfd",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Use \"When clicking \"Execute Workflow\"\" or Manual Trigger",
+        "height": 240,
+        "width": 288,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -112,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "83bea3f0-0797-4457-b9b1-71d13c27cae5",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "125f2c34-2023-4c92-8984-0e1f88f40683",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "4QFlJwneVtOjZ34v",
+  "tags": []
+}

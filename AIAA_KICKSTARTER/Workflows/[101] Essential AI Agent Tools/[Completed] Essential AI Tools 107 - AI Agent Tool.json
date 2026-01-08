@@ -1,0 +1,218 @@
+{
+  "name": "[Completed] Essential AI Tools 107 - AI Agent Tool",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "10031d94-92ec-493c-93d7-d9cfb4d3e8fc",
+      "name": "When chat message received",
+      "webhookId": "db19ae37-8286-40ce-bb31-19ca75025dae"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant that acts as a coordinator and decision-maker. You have access to a specialized AI Agent Tool that contains its own AI capabilities for handling specific tasks.Your Role:\n\nAnalyze user requests - Understand what the user is asking for\nDecide if delegation is needed - Determine if the task should be handled by you directly or delegated to your AI Agent Tool\nUse the AI Agent Tool when the task requires:\n\nSpecialized reasoning or analysis\nA second opinion or verification\nBreaking down complex tasks into subtasks\nTasks that benefit from a different perspective\n\n\nUse memory - Remember the conversation context and previous interactions\nSynthesize responses - Combine results from the AI Agent Tool with your own reasoning to provide comprehensive answers\nDecision Framework:Handle directly (don't use AI Agent Tool):\n\nSimple, straightforward questions\nQuick factual responses\nBasic conversational exchanges\nWhen you can confidently answer immediately\nDelegate to AI Agent Tool:\n\nComplex analysis requiring deep reasoning\nTasks needing verification or validation\nMulti-step problem solving\nWhen a specialized perspective would be valuable\nCreative tasks that benefit from collaboration\nAlways provide clear, helpful responses and explain your reasoning when appropriate."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        352,
+        0
+      ],
+      "id": "ca071088-524f-446c-8bba-cef002023eae",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        240
+      ],
+      "id": "99e89d99-a0ce-46cd-9393-f5020a0eea60",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## AI Agent Tool\n- give your agent the capability to use another ai agent as a tool",
+        "height": 672,
+        "width": 1056
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "3d3d1bc0-a4f2-4a78-8dc4-e8d5069ad1f2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        240
+      ],
+      "id": "8a275b5f-d90c-44b8-a4a9-1aa3a5b5e257",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
+        "options": {
+          "systemMessage": "You are a specialized AI assistant that serves as a tool for another AI agent. Your role is to:\nReceive delegated tasks from the main AI agent\nProvide focused analysis - Give detailed, thorough responses to the specific question or task\nUse your own reasoning - Think through problems step-by-step\nReturn clear results - Provide well-structured answers that the main agent can use\nYou should:\n\nFocus on the specific task given to you\nProvide thorough, accurate analysis\nBe concise but complete\nNot worry about conversation flow (the main agent handles that)\nThink of yourself as a specialized consultant that the main agent calls upon for expertise."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agentTool",
+      "typeVersion": 3,
+      "position": [
+        512,
+        208
+      ],
+      "id": "a9cd5c58-3530-4bb9-880a-5d89837812ea",
+      "name": "AI Agent Tool"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        384,
+        416
+      ],
+      "id": "5b4a2b7d-62fc-4b45-9171-92426e5ac1af",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## [THINK] What tools can you add to this ai agent?",
+        "height": 96,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        816,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "00fad94f-f484-4b89-872e-5d7bdfe0de24",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "### Sample input \nWhat are the ethical implications of AI in healthcare?",
+        "height": 96,
+        "width": 304,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -384,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "a8758c61-f842-4924-af1a-0621ede27b65",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "ecf92257-2814-4ca3-89c4-080c8d11e177",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "Bh8qPB277rlc2sTA",
+  "tags": []
+}
