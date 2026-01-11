@@ -64,6 +64,14 @@ Return as a single clean JSON object only, exactly in this format (no markdown, 
 {"post": "your linkedin post content here", "image_prompt": "your short image prompt here"}
 ```
 
+Please paste this into the output parser:
+```
+{
+	"post": "linkedin post",
+	"prompt": "image prompt"
+}
+```
+
 ---
 
 ## Example Usage
