@@ -11,10 +11,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        448,
-        224
+        192,
+        0
       ],
-      "id": "ca56e2d7-d5c9-4fc6-bf26-39a641a4c16d",
+      "id": "c807e739-baa6-4f9c-a780-2dcdc335eb27",
       "name": "AI Agent"
     },
     {
@@ -27,39 +27,15 @@
       "type": "n8n-nodes-base.linkedIn",
       "typeVersion": 1,
       "position": [
-        1024,
-        224
+        768,
+        0
       ],
-      "id": "4a33d0fa-6a82-4e75-98fc-eae746795791",
+      "id": "b3a37ed8-37f0-4a7e-8a6d-4bb5edeb646e",
       "name": "Create a post",
       "credentials": {
         "linkedInOAuth2Api": {
           "id": "tMGZgy2qd8Pq8CI8",
           "name": "Arpan's Linkedin"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "mode": "list",
-          "value": "gpt-4.1-mini"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [
-        448,
-        432
-      ],
-      "id": "f3abd469-1979-482f-b8f8-767af9cf22f1",
-      "name": "OpenAI Chat Model",
-      "credentials": {
-        "openAiApi": {
-          "id": "ObCaKD8aopZJXAxC",
-          "name": "arpan_openai"
         }
       }
     },
@@ -78,10 +54,10 @@
       "type": "@n8n/n8n-nodes-langchain.googleGemini",
       "typeVersion": 1.1,
       "position": [
-        800,
-        224
+        544,
+        0
       ],
-      "id": "753a0bec-c344-4a4b-b786-3bbb23cc0227",
+      "id": "855e796f-808a-4700-a1e4-802b64cf59ef",
       "name": "Generate an image",
       "credentials": {
         "googlePalmApi": {
@@ -97,10 +73,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        256,
-        224
+        0,
+        0
       ],
-      "id": "a1fbaac3-8225-41d7-be7a-e7dd0f727d48",
+      "id": "b19fb5f6-6f8f-4869-bcf1-6711a9967bbd",
       "name": "When chat message received",
       "webhookId": "7873d7ed-08be-4b35-bb77-2e1b0a9a836e"
     },
@@ -111,11 +87,30 @@
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        624,
-        432
+        368,
+        208
       ],
-      "id": "27bec5b0-922e-432a-a38b-fbe2017a5173",
+      "id": "97c3e31b-8aa9-4466-93d8-74e3e360157b",
       "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        48,
+        208
+      ],
+      "id": "9627b4eb-a37a-4f21-952e-67732748093f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -126,22 +121,6 @@
           {
             "node": "Generate an image",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create a post": {
-      "main": [
-        []
-      ]
-    },
-    "OpenAI Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -179,6 +158,17 @@
           }
         ]
       ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -186,11 +176,11 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "c61f78bf-e594-42e6-9eca-e7dceb68dfca",
+  "versionId": "0ca37185-7782-40fe-a32d-881d579f2b5b",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
   },
-  "id": "viZlfKWNUcY6T6iu",
+  "id": "ODiWXqwuZTwnHxf6",
   "tags": []
 }
