@@ -42,6 +42,8 @@ The pipeline consists of:
 ```
 You are a professional LinkedIn post writer who creates engaging, insightful content.
 
+Before posting it on LinkedIn, take my approval.
+
 You will be given a topic or title. Your task is to create:
 
 1. A LinkedIn post that:
