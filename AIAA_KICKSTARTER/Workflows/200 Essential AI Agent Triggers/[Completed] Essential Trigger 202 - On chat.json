@@ -1,0 +1,159 @@
+{
+  "name": "[Completed] Essential Trigger 202 - On chat",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Send a motivational message to the team with the theme of clarity and vision"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f23a26df-f864-4b2c-9b64-e29fb169e748",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "7d5d39b2-a504-42ad-b504-fd4267ce9b3a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Use this tool to extract information about Crypto Market Sentiment",
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "enableUrlContext": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Enable_URL_Context_Tool', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-gemini-search.geminiSearchToolTool",
+      "typeVersion": 1,
+      "position": [
+        448,
+        208
+      ],
+      "id": "157e28ac-d3a3-4b30-8a83-36c7bfae98c9",
+      "name": "Gemini Search Tool",
+      "credentials": {
+        "geminiSearchApi": {
+          "id": "7az0sro57GIxXbvr",
+          "name": "KN Gemini Tool API - 4 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### How to start a workflow with chat?",
+        "height": 496,
+        "width": 912
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -96,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "b37c078e-7551-409e-b0c2-8b4a7b328999",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Use Chat Trigger",
+        "height": 176,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -64,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "b089e819-1354-40d4-8357-c1c94c439789",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "572c4a96-06b1-47be-85b0-9078ce1d1bdb",
+      "name": "When chat message received",
+      "webhookId": "7708160e-1cfd-4c87-b40e-79485abe94ef"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "2992b3eb-d7f8-414d-ae3a-9755624a6bf0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "DuAc2ngCky1ANgWq",
+  "tags": []
+}
