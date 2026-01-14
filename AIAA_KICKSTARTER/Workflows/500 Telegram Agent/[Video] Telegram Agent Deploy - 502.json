@@ -1,0 +1,327 @@
+{
+  "name": "[Video] Telegram Agent Deploy - 502",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        -16
+      ],
+      "id": "d4bc002e-c0fe-4dd5-9f12-b5defe843e97",
+      "name": "Telegram Trigger",
+      "webhookId": "33d0e6c9-3054-49c0-8de9-8e5fa45051c9",
+      "credentials": {
+        "telegramApi": {
+          "id": "SBLJ1w4tS7pQgHas",
+          "name": "KN AIAAKS Video Telegram - 15 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Telegram Agent",
+        "height": 560,
+        "width": 1024,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "0417f029-9c7d-4a23-91fc-86173b776567",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        -16
+      ],
+      "id": "d2b576f4-9734-4120-8679-8bcf10345cbd",
+      "name": "Send a text message",
+      "webhookId": "b3221395-d4ed-495c-b4fd-a173faa14cbd",
+      "credentials": {
+        "telegramApi": {
+          "id": "SBLJ1w4tS7pQgHas",
+          "name": "KN AIAAKS Video Telegram - 15 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are an n8n workflow assistant that helps users manage their Google Docs documents. When a user sends a chat message, you will:\n\nUnderstand the request - Determine what document operation the user needs\nChoose the right tool - Select from three available Google Docs operations:\n\nCreate a document - to create a new document with content\nGet a document - to retrieve/read content from an existing document\nUpdate a document - to modify content in an existing document\n\n\nUse memory - Remember document IDs and previous conversations to provide context-aware assistance\nExecute the action - Perform the requested document operation\nRespond to the user - Confirm what was done or return the requested content\n\nImportant formatting rules:\n\nAfter creating or updating a document, always provide the document link in markdown format: [URL](URL) to make it clickable\nUse clear, action-oriented language\nRemember document IDs from previous operations to make follow-up requests easier\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        128,
+        0
+      ],
+      "id": "0a82665b-7b2e-428c-a2d4-277074225be6",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        272
+      ],
+      "id": "2bdd82e0-69f5-495a-9b28-d65bf9722136",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        96,
+        256
+      ],
+      "id": "c4fc69d0-5643-4bc9-97ab-f71e22e76ff8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "folderId": "1c5g5TQ77dXiFNzSEFK8-VE81Z1gVP4J0",
+        "title": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Title', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        256,
+        256
+      ],
+      "id": "a8f7cc5f-98e8-49c3-a397-46eb65626d82",
+      "name": "Create a document in Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "DYiG73GgmuYjs85w",
+          "name": "KN DSM Google Docs - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Doc_ID_or_URL', ``, 'string') }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('actionFields0_Text', ``, 'string') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        416,
+        256
+      ],
+      "id": "a03cac76-ce5f-4bd5-baac-3240b0c36f39",
+      "name": "Update a document in Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "DYiG73GgmuYjs85w",
+          "name": "KN DSM Google Docs - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Doc_ID_or_URL', ``, 'string') }}"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        576,
+        256
+      ],
+      "id": "15a261c4-fd92-47ac-a98b-216156b33768",
+      "name": "Get a document in Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "DYiG73GgmuYjs85w",
+          "name": "KN DSM Google Docs - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Sample Input\nCreate a document titled N8N and update it with an article on why N8N is better than make.com",
+        "height": 144,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -480,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "af1a378e-496f-4e8c-a7b3-3951c32d0884",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 19330363,
+          "message": {
+            "message_id": 3,
+            "from": {
+              "id": 1089559488,
+              "is_bot": false,
+              "first_name": "Kunaal",
+              "last_name": "Naik",
+              "username": "KunaalNaik",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 1089559488,
+              "first_name": "Kunaal",
+              "last_name": "Naik",
+              "username": "KunaalNaik",
+              "type": "private"
+            },
+            "date": 1768415853,
+            "text": "hi"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a document in Google Docs": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document in Google Docs": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a document in Google Docs": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "9df8e016-bd6d-41b7-837f-70e5b24dae47",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "G55d7Mi3sN46hcVF",
+  "tags": []
+}
