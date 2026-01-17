@@ -1,5 +1,6 @@
 # WHR - Prompt
 
+## Prompt 1
 ```
 ## INPUTS 
 (paste your filled answers below)
@@ -95,4 +96,15 @@ Make a table:
 * Use clear headings, lists, and tables.
 * No fluff.
 
+```
+
+## Prompt 2
+```
+You are a world-class positioning and offer-creation expert. 
+Using the W.H.R. (What–How–Rules) inputs provided earlier, create a compelling one-paragraph offer tailored specifically 
+to the target audience identified. The offer should clearly state who this is for, the painful problem it removes, 
+the tangible outcome they will get, and why this AI Agent–based solution is different from generic AI or ChatGPT usage. 
+Keep it benefit-driven, simple, non-technical, and focused on speed, clarity, and real-world impact. Avoid jargon. 
+Write it in a confident, credible tone that makes the reader feel, “This is exactly for me.” 
+The output should be a single paragraph suitable for a landing page, sales slide, or webinar pitch.
 ```
