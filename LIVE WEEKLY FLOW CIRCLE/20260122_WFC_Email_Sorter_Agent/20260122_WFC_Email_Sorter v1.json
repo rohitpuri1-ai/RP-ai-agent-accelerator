@@ -1,0 +1,314 @@
+{
+  "name": "20260122_WFC_Email_Sorter v1",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1120,
+        -160
+      ],
+      "id": "a6c618ac-ce5b-4ea0-ae05-c92744f9d48d",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kOXWxrW0lrRtHip1",
+          "name": "Arpan_gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.snippet }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an email sorting assistant with access to Google Sheets. Analyze every email and log it directly to the spreadsheet.\n\nAnalyze this email and categorize it:\n\nEmail From: {{ $json.From }}\nEmail Subject: {{ $json.Subject }}\nEmail Body: {{ $json.snippet }}\nThread ID: {{ $json.threadId }}\n\nFor each email, determine:\n- Type: Choose one (Support, Sales, General Inquiry, Newsletter, Spam, Other)\n- Category: Choose one (Urgent, Important, Normal, Low Priority)\n- Requires Response: Answer Yes or No\n- Suggested Response: Write 1-2 sentences suggesting how to reply, or write \"No response needed\"\n\nAfter analyzing the email, use the Google Sheets tool to add a new row with all this information. Make sure every email gets logged.\n\nToday's date is {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -912,
+        -160
+      ],
+      "id": "897b3c4e-63f1-4e47-93da-903e9be8db8d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        48
+      ],
+      "id": "2a73bbf9-32cb-4308-bdc4-767153f00c23",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "iRiikErYVYL2GFKy",
+          "name": "arpan_gemini_paid_key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.threadId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -960,
+        48
+      ],
+      "id": "a82970eb-e94b-4dd7-bd00-87aedb2aee1c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1thtHDuZEPYOPOSlcySgVBLsZKDY5LYf0nE6Ba39BQzM",
+          "mode": "list",
+          "cachedResultName": "20260122_WFC_Email_Sorter",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1thtHDuZEPYOPOSlcySgVBLsZKDY5LYf0nE6Ba39BQzM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Email Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1thtHDuZEPYOPOSlcySgVBLsZKDY5LYf0nE6Ba39BQzM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Received": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Date_Received', ``, 'string') }}",
+            "Sender Email": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Sender_Email', ``, 'string') }}",
+            "Sender Name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Sender_Name', ``, 'string') }}",
+            "Email Snippet": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Email_Snippet', ``, 'string') }}",
+            "Thread ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Thread_ID', ``, 'string') }}",
+            "Type": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Type', ``, 'string') }}",
+            "Category": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Category', ``, 'string') }}",
+            "Requires Response": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Requires_Response', ``, 'string') }}",
+            "Suggested Response": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Suggested_Response', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date Received",
+              "displayName": "Date Received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender Email",
+              "displayName": "Sender Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender Name",
+              "displayName": "Sender Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Snippet",
+              "displayName": "Email Snippet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thread ID",
+              "displayName": "Thread ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requires Response",
+              "displayName": "Requires Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Suggested Response",
+              "displayName": "Suggested Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -800,
+        48
+      ],
+      "id": "7286d3a1-db96-4800-96e2-09ee7ffe3ca2",
+      "name": "Append row in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EwmEcnRjwuetjCGA",
+          "name": "KN DSM Google Sheets - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Email sorter V1 - using Google Sheets as a tool",
+        "height": 544,
+        "width": 704
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1184,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "86241db9-9202-411a-9661-361d1aa3b052",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"type\": \"type of email\",\n  \"category\": \"category of the email\",\n  \"requires_response\": \"Yes/No\",\n  \"suggested_response\": \"Suggested reponse by the AI Agent\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -624,
+        48
+      ],
+      "id": "769275f5-bf59-4d62-bc72-782d3fd3d4e2",
+      "name": "Structured Output Parser"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "c55d87a9-0675-40a1-9f9f-90c39c508a06",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "FmbTSikceah2f5XNg_zak",
+  "tags": []
+}

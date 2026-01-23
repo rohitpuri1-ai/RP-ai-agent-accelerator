@@ -1,0 +1,378 @@
+{
+  "name": "20260122_WFC_Email_Sorter v2",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -592,
+        -208
+      ],
+      "id": "eb869e81-e6f5-467c-bf2c-b9ee2a972a98",
+      "name": "Gmail Trigger1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "kOXWxrW0lrRtHip1",
+          "name": "Arpan_gmail"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.snippet }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=Analyze this email and categorize it:\n\nEmail From: {{ $json.From }}\nEmail Subject: {{ $json.Subject }}\nEmail Body: {{ $json.snippet }}\nThread ID: \n\nClassify the email and provide:\n1. Type: (Support, Sales, General Inquiry, Newsletter, Spam, or Other)\n2. Category: (Urgent, Important, Normal, or Low Priority)\n3. Requires Response: (Yes or No)\n4. Suggested Response: (Brief 2-3 sentence suggestion for replying, or \"No response needed\")\n\nBe concise and clear in your classifications.\nToday's date is {{ $now }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -368,
+        -208
+      ],
+      "id": "ef9c30d4-c8bd-437f-91bd-e0c02ac81527",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -496,
+        0
+      ],
+      "id": "094d0839-21a5-40f7-9bb2-ab25e1390db7",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "iRiikErYVYL2GFKy",
+          "name": "arpan_gemini_paid_key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.threadId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -336,
+        0
+      ],
+      "id": "3f6d6e31-766d-4928-baa4-db8fdec5af00",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2e56a08e-e158-4d86-9e0b-cd1edd013090",
+              "leftValue": "={{ $json.output.requires_response }}",
+              "rightValue": "yes",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -16,
+        -208
+      ],
+      "id": "7e34bce4-6d51-4267-9ae2-7854dd641bf2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1thtHDuZEPYOPOSlcySgVBLsZKDY5LYf0nE6Ba39BQzM",
+          "mode": "list",
+          "cachedResultName": "20260122_WFC_Email_Sorter",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1thtHDuZEPYOPOSlcySgVBLsZKDY5LYf0nE6Ba39BQzM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Email Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1thtHDuZEPYOPOSlcySgVBLsZKDY5LYf0nE6Ba39BQzM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Sender Email": "={{ $json.output.sender_email }}",
+            "Sender Name": "={{ $json.output.sender_name }}",
+            "Email Snippet": "={{ $json.output.email_snippet }}",
+            "Type": "={{ $json.output.type }}",
+            "Category": "={{ $json.output.category }}",
+            "Requires Response": "={{ $json.output.requires_response }}",
+            "Suggested Response": "={{ $json.output.suggested_response }}",
+            "Thread ID": "={{ $('Gmail Trigger1').item.json.threadId }}",
+            "Date Received": "={{ $json.output.date_received }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date Received",
+              "displayName": "Date Received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender Email",
+              "displayName": "Sender Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender Name",
+              "displayName": "Sender Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Snippet",
+              "displayName": "Email Snippet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thread ID",
+              "displayName": "Thread ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requires Response",
+              "displayName": "Requires Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Suggested Response",
+              "displayName": "Suggested Response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        -304
+      ],
+      "id": "ba09843b-6be9-4c5a-bafd-0e71d4cbb76a",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EwmEcnRjwuetjCGA",
+          "name": "KN DSM Google Sheets - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -112
+      ],
+      "id": "203ec5bc-4fdd-4279-8c96-40ddc826f123",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "content": "## Email Sorter V2 - Only logging the responses that need a response",
+        "height": 544,
+        "width": 1184
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -736,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "dc8fc9cb-b337-49e8-8356-1e46e89b845f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"date_received\": \"date of receiving the email\",\n  \"sender_email\": \"name@email.com\",\n  \"sender_name\": \"John Doe\",\n  \"email_snippet\": \"email snippet\",\n  \"thread_id\": \"abc123xyz\",\n  \"type\": \"type of email\",\n  \"category\": \"category of email\",\n  \"requires_response\": \"Yes/no\",\n  \"suggested_response\": \"response by AI Agent\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -192,
+        0
+      ],
+      "id": "944a6547-c3f1-4aad-8edf-f955f2fd51a8",
+      "name": "Structured Output Parser1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "147fd4b5-9226-4433-b86d-5a0ae98dbbea",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "2gChjmdshwT5Tbtl",
+  "tags": []
+}
