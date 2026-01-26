@@ -1,4 +1,4 @@
-# Email Sorter V1 - Using Google Sheets as a Tool
+# Inbox Intelligence Agent V1 - Using Google Sheets as a Tool
 
 ## Workflow Overview
 This workflow uses an AI Agent with Google Sheets tool access to automatically categorize and log all incoming emails directly to a spreadsheet.
@@ -163,7 +163,7 @@ Body: Hi, I placed an order yesterday but haven't received confirmation. Can you
 
 ## Version
 
-**v1.0** – Email Sorter using Google Sheets as an AI Agent Tool
+**v1.0** – Inbox Intelligence Agent using Google Sheets as an AI Agent Tool
 
 ---
 
@@ -173,7 +173,7 @@ Body: Hi, I placed an order yesterday but haven't received confirmation. Can you
 
 ---
 
-# Email Sorter V2 - Only Logging the Responses that Need a Response
+# Inbox Intelligence Agent V2 - Only Logging the Responses that Need a Response
 
 ## Workflow Overview
 This workflow uses an AI Agent to analyze incoming emails and only logs emails that require a response to a Google Sheet using conditional logic.
@@ -363,6 +363,6 @@ Body: Check out this week's top stories...
 
 ## Version
 
-**v2.0** – Email Sorter with Conditional Logging
+**v2.0** – Inbox Intelligence Agent with Conditional Logging
 
 ---
