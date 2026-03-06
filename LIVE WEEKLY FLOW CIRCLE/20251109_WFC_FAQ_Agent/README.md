@@ -1,5 +1,8 @@
 # FAQ Agent
 
+Please make a copy of this google sheet - [Sheet](https://docs.google.com/spreadsheets/d/1HiP5AZ7r162gh3o-5vKx9VK6z1YT7uXjbgrLbQYl4HA/edit?gid=0#gid=0)
+
+
 ## System Message - Single Sheet (V1)
 
 ```
