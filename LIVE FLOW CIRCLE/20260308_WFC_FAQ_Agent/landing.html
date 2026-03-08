@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Agent Accelerator</title>
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; }
+
+    header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2a2a4a;
+    }
+    header .logo { font-size: 1.4rem; font-weight: 700; color: #7c6af7; }
+    header nav a { color: #aaa; text-decoration: none; margin-left: 24px; font-size: 0.9rem; }
+    header nav a:hover { color: #fff; }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: radial-gradient(ellipse at center, #1e1b4b 0%, #0f0f1a 70%);
+    }
+    .hero h1 { font-size: 2.8rem; font-weight: 800; color: #fff; line-height: 1.2; }
+    .hero h1 span { color: #7c6af7; }
+    .hero p { margin: 20px auto; max-width: 560px; color: #9ca3af; font-size: 1.05rem; line-height: 1.7; }
+    .hero .cta {
+      display: inline-block; margin-top: 28px;
+      background: #7c6af7; color: #fff;
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .hero .cta:hover { background: #6352e8; }
+
+    .features {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 24px; padding: 60px 40px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .card {
+      background: #1a1a2e; border: 1px solid #2a2a4a;
+      border-radius: 12px; padding: 28px 24px;
+      width: 280px; text-align: center;
+    }
+    .card .icon { font-size: 2rem; margin-bottom: 14px; }
+    .card h3 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; }
+    .card p { font-size: 0.88rem; color: #9ca3af; line-height: 1.6; }
+
+    footer {
+      text-align: center; padding: 30px;
+      color: #555; font-size: 0.82rem;
+      border-top: 1px solid #1e1e30;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Data Science Masterminds</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Programs</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Build <span>AI Agents</span> That<br/>Work While You Sleep</h1>
+    <p>Learn to design, build, and deploy intelligent AI agents — no PhD required. Join thousands of professionals automating their workflows with the AI Agent Accelerator.</p>
+    <a href="#" class="cta">Get Started Free →</a>
+  </section>
+
+  <section class="features">
+    <div class="card">
+      <div class="icon">🤖</div>
+      <h3>Build Real Agents</h3>
+      <p>Hands-on projects using n8n, Claude, and GPT. No fluff — just working automations from day one.</p>
+    </div>
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h3>No-Code Friendly</h3>
+      <p>Designed for non-technical professionals. If you can use a spreadsheet, you can build an AI agent.</p>
+    </div>
+    <div class="card">
+      <div class="icon">🌏</div>
+      <h3>Global Community</h3>
+      <p>Join learners across Singapore, UAE, India, Australia and beyond scaling their careers with AI.</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Data Science Masterminds. All rights reserved.
+  </footer>
+
+  <script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    createChat({
+      webhookUrl: 'https://aiaa1.datasciencemasterminds.com/webhook/8480facd-1d5c-4bb4-ada7-3efff1b68d21/chat'
+    });
+  </script>
+
+</body>
+</html>
