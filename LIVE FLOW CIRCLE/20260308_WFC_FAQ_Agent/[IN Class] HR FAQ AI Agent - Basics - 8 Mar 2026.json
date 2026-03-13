@@ -1,0 +1,275 @@
+{
+  "name": "[IN Class] HR FAQ AI Agent - Basics - 8 Mar 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        464,
+        32
+      ],
+      "id": "6e412390-c870-4b93-8dcd-5d19e54b7d95",
+      "name": "When chat message received",
+      "webhookId": "8480facd-1d5c-4bb4-ada7-3efff1b68d21"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "**System Prompt for HR FAQ AI Agent**\n\nYou are an **HR Support Assistant** responsible for answering employee questions related to company HR policies.\n\nYour role is to provide **accurate, short, and clear answers** by referring only to the available knowledge tools connected to you.\n\n---\n\n### Available Knowledge Tools\n\nYou have access to the following tools:\n\n1. **Leave & Attendance**\n   Contains information about:\n\n* Leave policies (annual, sick, casual)\n* Attendance rules\n* Work-from-home policy\n* Leave application process\n* **Resignation and exit process**\n* Notice period and final working day procedures\n\n2. **Payroll & Compensation**\n   Contains information about:\n\n* Salary payment dates\n* Payslip access\n* Tax documents\n* Bonuses\n* Reimbursements\n* Bank account updates\n\n3. **Employee Benefits & Policies**\n   Contains information about:\n\n* Health insurance\n* Provident fund\n* Employee ID cards\n* Learning and development programs\n* Company code of conduct and policies\n* Exit Process\n\n---\n\n### Instructions\n\nFollow these rules when answering questions:\n\n1. **Always search the appropriate tool first** before answering a question.\n\n2. Select the tool based on the question category:\n\n* Leave, attendance, leave application, resignation, notice period, exit process → **Leave & Attendance**\n* Salary, payslips, bonuses, reimbursements, taxes → **Payroll & Compensation**\n* Insurance, PF, ID cards, company policies, learning programs → **Employee Benefits & Policies**\n\n3. **Only use the information returned from the tool** to answer the question.\n\n4. **Do not invent or assume information.**\n\n5. Keep responses **short, clear, and helpful (1–2 sentences).**\n\n---\n\n### If Information Is Not Found\n\nIf the information does not exist in the knowledge base, respond with:\n\n\"I'm sorry, I cannot answer this question because the information is not available in my HR knowledge base.\"\n\n---\n\n### If the Question Is Not HR Related\n\nRespond with:\n\n\"I can assist only with HR-related questions such as leave, payroll, benefits, resignation, and company policies.\"\n\n---\n\n### Response Style\n\n* Professional\n* Friendly\n* Concise\n* Direct\n\nYour goal is to **help employees quickly find HR information using only the connected knowledge tools.**\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        672,
+        32
+      ],
+      "id": "2765ac33-c316-4420-a827-07e2fdd409e1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        544,
+        240
+      ],
+      "id": "c7ec9a5b-d2c1-4002-8d54-804b3b33dacc",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        240
+      ],
+      "id": "3013d8b9-38ea-4316-b820-d91f1c6b778e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "## Google Sheet \nPlease make a copy of this google sheet - [20251109 - E-commerce FAQs - V2](https://docs.google.com/spreadsheets/d/1c4UcQvL4GcXrnOA09WoDcWafTBtnl62pHfoRFQuy5fA/edit?gid=0#gid=0)",
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "2b50ea80-ad46-44a7-a8ea-8aa1647d606e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Questions to ask \n1) What is the return policy?\n2) Do you have earbuds?\n3) How to get in touch?",
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "81518d01-8919-4f12-ace9-f9f556564d85",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk",
+          "mode": "list",
+          "cachedResultName": "20260308 - HR FAQs - V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leave & Attendance",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        912,
+        224
+      ],
+      "id": "3c63fc5e-e706-4d81-8614-d30d381ea5f5",
+      "name": "Leave & Attendance",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EwmEcnRjwuetjCGA",
+          "name": "KN DSM Google Sheets - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk",
+          "mode": "list",
+          "cachedResultName": "20260308 - HR FAQs - V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 73328881,
+          "mode": "list",
+          "cachedResultName": "Payroll & Compensation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk/edit#gid=73328881"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        1088,
+        224
+      ],
+      "id": "5440ddbc-db18-46d3-bf5c-60fc54beccff",
+      "name": "Payroll & Compensation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EwmEcnRjwuetjCGA",
+          "name": "KN DSM Google Sheets - 8 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk",
+          "mode": "list",
+          "cachedResultName": "20260308 - HR FAQs - V2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1509472162,
+          "mode": "list",
+          "cachedResultName": "Employee Benefits & Policies",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XFZjA_zQxb8bQMbKzoLEqIAY4NvBmvjdjljZoH9rIgk/edit#gid=1509472162"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        1264,
+        224
+      ],
+      "id": "c8720310-3a64-40a0-8dc1-0bef254baf8a",
+      "name": "Employee Benefits & Policies",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "EwmEcnRjwuetjCGA",
+          "name": "KN DSM Google Sheets - 8 JAN 2026"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leave & Attendance": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payroll & Compensation": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Employee Benefits & Policies": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "77663a55-ad76-4de2-a60e-9455df742542",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "ohJaD4iCpqFq7VRe",
+  "tags": []
+}
