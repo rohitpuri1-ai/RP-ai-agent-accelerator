@@ -37,7 +37,7 @@ Fetch all data to analyze it for response if needed.
 Here is the schema and table definition before you create the query. 
 | table_schema | table_name                     |
 | ------------ | ------------------------------ |
-| public       | tlb_transactions               |
+| public       | tbl_transactions               |
 | public       | YKA_Stock                      |
 | public       | n8n_chat_histories_agentic_rag |
 | public       | documents_google               |
