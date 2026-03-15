@@ -1,0 +1,140 @@
+{
+  "name": "[Template] Data Analys Basic Version - 11 MAR 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        480,
+        -272
+      ],
+      "id": "245993fa-0b3f-4df2-b74f-1bc53fca4de6",
+      "name": "When chat message received",
+      "webhookId": "bc7570a9-8496-4229-abe3-e9866738db3e"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Add System Prompt Here"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        688,
+        -272
+      ],
+      "id": "0fefdd45-afc8-42ac-bb75-08c45bac3cb2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -64
+      ],
+      "id": "9f563c3f-694d-4c30-b700-ff4908d3f906",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        -64
+      ],
+      "id": "3367dab6-e4fa-455c-82cc-bc679b80c64f",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Update Query Here",
+        "operation": "executeQuery",
+        "query": "Query From AI",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        912,
+        -64
+      ],
+      "id": "6f900b10-9f2c-4d71-be1f-3510eb511891",
+      "name": "Run SQL Query",
+      "credentials": {
+        "postgres": {
+          "id": "XpgXrIGdVBC2ADnR",
+          "name": "YKA Postgres account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run SQL Query": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "9c7320b6-c9b8-4110-a5bb-912866d7ee45",
+  "meta": {
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "3UJp38eiuHjBPvOC",
+  "tags": []
+}
