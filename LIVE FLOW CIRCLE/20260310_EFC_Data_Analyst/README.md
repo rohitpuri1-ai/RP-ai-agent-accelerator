@@ -70,6 +70,17 @@ Table Definition of tbl_transactions
 | Purchase_Channel | text             | YES         | null           | null            | null             | null              |
 ```
 
+### Description
+```
+Run custom SQL queries using knowledge about Output structure to provide needed response for user request.
+Use ->> operator to extract JSON data.
+```
+
+### Query from AI
+```
+{{ $fromAI("query","SQL query for PostgreSQL DB in Supabase") }}
+```
+
 ---
 
 ## What This Workflow Does
