@@ -1,0 +1,169 @@
+{
+  "name": "Data Agent with Automated Schedule - 15 MAR 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "I want you to create a report of the top 5 customers and their transactions within my database, as well as the top products by sales count. Please send that report to me via an email tool.",
+        "options": {
+          "systemMessage": "You are DB assistant. You need to run queries in DB aligned with user requests. Whenever you use column names in the query enclose with double quotes. Example instead of SUM(Units) write SUM(\"Units\")\nRun custom SQL query to aggregate data and response to user. After you have run the query please use the tool \"Send a message tool\" to send the email with analysis. Use HTML format to draft email. \nFetch all data to analyze it for response if needed.\nHere is the schema and table definition before you create the query. \n| table_schema | table_name                     |\n| ------------ | ------------------------------ |\n| public       | tbl_transactions               |\n| public       | YKA_Stock                      |\n| public       | n8n_chat_histories_agentic_rag |\n| public       | documents_google               |\n| public       | n8n_chat_histories_hfn_bot1    |\n| public       | tbl_customers                  |\n| public       | n8n_chat_histories_l202        |\nTable Definition of tbl_customers\n| column_name     | data_type | is_nullable | column_default | constraint_type | referenced_table | referenced_column |\n| --------------- | --------- | ----------- | -------------- | --------------- | ---------------- | ----------------- |\n| Customer_ID     | bigint    | NO          | null           | null            | null             | null              |\n| Customer_Name   | text      | YES         | null           | null            | null             | null              |\n| Customer_Email  | text      | YES         | null           | null            | null             | null              |\n| Customer_Number | text      | YES         | null           | null            | null             | null              |\n| Age             | bigint    | YES         | null           | null            | null             | null              |\n| Gender          | text      | YES         | null           | null            | null             | null              |\n| Location        | text      | YES         | null           | null            | null             | null              |\nTable Definition of tbl_transactions\n| column_name      | data_type        | is_nullable | column_default | constraint_type | referenced_table | referenced_column |\n| ---------------- | ---------------- | ----------- | -------------- | --------------- | ---------------- | ----------------- |\n| Transaction_ID   | bigint           | NO          | null           | null            | null             | null              |\n| Date_of_Purchase | text             | YES         | null           | null            | null             | null              |\n| Customer_ID      | bigint           | YES         | null           | null            | null             | null              |\n| Product_Category | text             | YES         | null           | null            | null             | null              |\n| Product_Name     | text             | YES         | null           | null            | null             | null              |\n| Units            | bigint           | YES         | null           | null            | null             | null              |\n| Price            | double precision | YES         | null           | null            | null             | null              |\n| Discounts        | double precision | YES         | null           | null            | null             | null              |\n| Returned         | boolean          | YES         | null           | null            | null             | null              |\n| Mode_of_Payment  | text             | YES         | null           | null            | null             | null              |\n| Purchase_Channel | text             | YES         | null           | null            | null             | null              |"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "6021032d-e774-4843-8168-6a19690160e7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Run custom SQL queries using knowledge about Output structure to provide needed response for user request.\nUse ->> operator to extract JSON data.",
+        "operation": "executeQuery",
+        "query": "{{ $fromAI(\"query\",\"SQL query for PostgreSQL DB in Supabase\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        448,
+        224
+      ],
+      "id": "100ccda3-f7a1-4a0c-888f-bfc8de59b78a",
+      "name": "Run SQL Query",
+      "credentials": {
+        "postgres": {
+          "id": "PQiYRRGco5l3dbLK",
+          "name": "KN Supabase 15 Mar 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        32,
+        224
+      ],
+      "id": "53e580da-0d04-449b-ac5a-bd360c920c54",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "dFUqWEg3mrhGzOs1",
+          "name": "KN OpenRouter - 4 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "66588d97-84f3-484e-b666-9086e6494d5c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "adjectivecontentcreators@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {
+          "appendAttribution": false,
+          "senderName": "Agent KAI"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        144
+      ],
+      "id": "ac3074a1-2539-4078-867d-c3b208c5dccc",
+      "name": "Send a message in Gmail",
+      "webhookId": "26af193f-7b98-44c4-b784-0aba2356290a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ExHlzlbgM2pBqA3J",
+          "name": "KN Gmail 8 JAN 2026"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Run SQL Query": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "50fd4a26-5639-445b-882b-c249c45bd0de",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "3XvHxb6JdR3VTin1",
+  "tags": []
+}
