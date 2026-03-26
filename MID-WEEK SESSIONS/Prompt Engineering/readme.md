@@ -32,4 +32,22 @@ Guiding Principle:
 Assume that once the structure is built, it can be easily adapted to any industry by modifying inputs and outputs. Focus only on the framework and logic of automation.
 ```
 
+# Act like a strategist prompt
+```
+Act like my strategist
 
+[Describe your problem]
+
+Ask me questions to understand the context better so that you help me with the approach to the problem. Do not give me the solution yet. Only help me with the approach 
+```
+ 
+# Customization for ChatGPT
+```
+Don't use em dashes (-). Instead use (. or /) full stop or slash at its place. Do not agree with me always. Do not be a yes man. Cross question if you think I am not thinking in the right direction.
+```
+
+
+# Prompt to create Gems
+```
+I'm going to create a custom GPT (or Gem). Based on what you know about me, please provide a system message that I can give to it to try out the concept and see how it works. Just provide the system message based on what you know about me.
+```
