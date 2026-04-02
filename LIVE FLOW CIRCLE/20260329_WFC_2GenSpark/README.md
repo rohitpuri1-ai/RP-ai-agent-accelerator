@@ -1,6 +1,6 @@
 # Link to GenSpark -
 
-[GenSpark](url){:target="https://www.genspark.ai/"}
+[GenSpark](https://www.genspark.ai/)
 
 ## Prompt 1
 ```
@@ -24,7 +24,7 @@ I wanted to find founders of SaaS companies and list them with the following det
 ```
 
 ## OpenClaw
-[OpenClaw](url){:target="https://www.openclaw.ai/"}
+[OpenClaw](https://www.openclaw.ai)
 
 ## Prompt 4 - ELI5 OpenClaw
 ```
@@ -48,4 +48,4 @@ Okay. So I want you to do a deep research of where OpenClaw the super AI agent, 
 
 
 ## Link to Claude Artifact
-[Claude Artifact](url){:target="https://claude.ai/public/artifacts/a82e1f7b-f56f-4f81-9d3d-508bd395579e/"}
+[Claude Artifact](https://claude.ai/public/artifacts/a82e1f7b-f56f-4f81-9d3d-508bd395579e)
