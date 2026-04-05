@@ -1,51 +1,188 @@
-# Link to GenSpark -
+# n8n MCP Server Workflow
+## AI-Powered CRM Agent — CRUD on Google Sheets
 
-[GenSpark](https://www.genspark.ai/)
+> **Type a message. Let the AI Agent create, read, update, or delete your CRM data.**
 
-## Prompt 1
-```
-Tell me about genspark and how to use it
-```
-```
-search and tell me
-```
+![Platform](https://img.shields.io/badge/Platform-n8n-orange) ![Trigger](https://img.shields.io/badge/Trigger-Chat%20Message-blue) ![Model](https://img.shields.io/badge/Model-Gemini%20Free-green) ![Pattern](https://img.shields.io/badge/Pattern-MCP%20Server-purple)
 
-## Prompt 2 - GenSpark Slides
-```
-Create a simple presentation on how to use Genspark for regular day-to-day uses and workflows.
-```
+---
 
-## Prompt 3 - GenSpark Sheets
-```
-I wanted to find founders of SaaS companies and list them with the following details:
-- Company name
-- Founder name
-- Company description
-```
+## Overview
 
-## OpenClaw
-[OpenClaw](https://www.openclaw.ai)
+This system uses **two separate n8n workflows** that work together. The first workflow is the user-facing AI Agent. The second workflow is the MCP Server that executes Google Sheets operations. The AI Agent decides which CRUD operation to run based on natural language — the user never needs to know which tool is being called.
 
-## Prompt 4 - ELI5 OpenClaw
-```
-ELI5 OpenClaw and who should I learn it
-```
+**CRM Sheet Columns:** `Customer Name · Phone · Email · Location · Lead Status`
 
-## Prompt 5 - OpenClaw information with Claude Add-in in power point and Claude Chat
+---
+
+## Architecture
+
 ```
-I want you to find all the information about OpenClaw and tell me:
-- Who should use it?
-- When should we use it?
-- What are the consumption costs and cost patterns?
-- What kind of companies are currently using OpenClaw?
-I need all the details in two to three slides so that I can plan whether I should use it or not.
+WORKFLOW 1 — AGENT SIDE
+────────────────────────────────────────────
+Chat Trigger → AI Agent (Gemini + Memory + MCP Client)
+
+WORKFLOW 2 — MCP SERVER SIDE
+────────────────────────────────────────────
+MCP Server Trigger
+    ├── Append Row in Google Sheets     (CREATE)
+    ├── Get Row(s) in Google Sheets     (READ)
+    ├── Update Row in Google Sheets     (UPDATE)
+    └── Delete Rows/Columns from Sheet  (DELETE)
 ```
 
-## Prompt 6 - Use case for OpenClaw
+Workflow 1 uses MCP Client as a tool node attached to the AI Agent.  
+Workflow 2 is triggered automatically when the AI Agent calls a tool.
+
+---
+
+## Node Configuration
+
+### Workflow 1 — Agent Side
+
+| Node | Type | Notes |
+|------|------|-------|
+| When chat message received | n8n Chat Trigger | Entry point |
+| AI Agent | AI Agent | Orchestrates all tool calls |
+| Google Gemini Chat Model | Chat Model | Attach to AI Agent |
+| Simple Memory | Memory | Attach to AI Agent |
+| MCP Client | Tool | Attach to AI Agent — connects to Workflow 2 |
+
+### Workflow 2 — MCP Server Side
+
+| Node | Type | Operation |
+|------|------|-----------|
+| MCP Server Trigger | MCP Server Trigger | Entry point for tool calls |
+| Append row in sheet | Google Sheets | CREATE |
+| Get row(s) in sheet | Google Sheets | READ |
+| Update row in sheet | Google Sheets | UPDATE |
+| Delete rows or columns | Google Sheets | DELETE |
+
+---
+
+## System Prompt
+
+Paste this into the **System Prompt** field of the AI Agent node.
+
 ```
-Okay. So I want you to do a deep research of where OpenClaw the super AI agent, is useful and how enterprises are going to be using it, and what are the practical uses that companies are already using it for. And the build one document, and what is the market size of this kind of agents? What are the competitors? What are the alternatives? What are the cautions that is there? What are the cost analysis that we can we can know? And if I'm, a you know, com founder of a company, are the things I need I should know to to ensure that OpenClose is gonna be beneficial for me. Right? I think and give me some examples for HR, sales, marketing, so that I can relate and understand this technology. More importantly, the whole idea is that, okay, I wanna I wanna begin my journey of you know, deploying my first open clause. So what where should I begin? What should I do? What cost consideration should I have? What are the options of you know, using open process as the open source. Right? So I can do it on my Mac Mini, What about other cheaper alternatives, free alternatives? Right? What are the API consumptions? So, essentially, all the things that you can find around me going into this OpenClaw and Right? So there is I also tried GenSpark OpenClaw. Right? And multiple other options are there to do it. Right? So I just want you to give me a good research in a HTML page that is simple, minimalistic so that I can just consume this information.
+You are a CRM Analyst.
+You have access to MCP Server which has 4 tools.
+
+1/ Leads Database
+When the user requests any information about leads, use this tool to read 
+the sheet and provide insights.
+
+There are four tools:
+1. Create or append rows
+2. Get rows
+3. Update rows
+4. Delete rows
+
+For the update and delete rows option, always make sure you do the get rows 
+first to understand which row to update or delete.
+
+In the update row option, the unique identifier that we have is the email 
+itself. So you can ask the user to give the email ID whenever they ask to 
+update any row. Ask them for the email ID so that you can identify which 
+row to update.
 ```
 
+---
 
-## Link to Claude Artifact
-[Claude Artifact](https://claude.ai/public/artifacts/a82e1f7b-f56f-4f81-9d3d-508bd395579e)
+## Test Prompts
+
+### CREATE — Add a new contact
+
+```
+Add a new contact: Name: Kunaal Naik, Phone: 9999999999, Email: kunaal@me.com, Location: BLR, Lead Status: Hot
+```
+
+```
+Add a new lead — James Smith, phone 555-1212, email james.smith@email.com, based in New Jersey, status Hot
+```
+
+---
+
+### READ — Query the CRM
+
+```
+Show me all contacts with a Hot lead status
+```
+
+```
+Find the contact with email daniel.harris@email.com
+```
+
+```
+Show me all contacts located in New York
+```
+
+```
+Give me a list of all Cold leads
+```
+
+---
+
+### UPDATE — Modify an existing record
+
+```
+Update the lead status for james.wilson@email.com to Hot
+```
+
+```
+Change the location for sarah.johnson@email.com to Chicago
+```
+
+> The agent will ask for the email ID to confirm which record to update before making any change.
+
+---
+
+### DELETE — Remove a contact
+
+```
+Delete the record for john.doe@email.com
+```
+
+```
+Remove the contact with email kun@me.com from the CRM
+```
+
+> ⚠️ Delete is irreversible in Google Sheets. For production use, add a confirmation step to the system prompt (see Implementation Notes below).
+
+---
+
+## Implementation Notes
+
+### Update & Delete — Why Email Is the Unique Identifier
+
+Names can have duplicates in a CRM. Email is always unique. The system prompt instructs the agent to ask for the email before any update or delete operation. This prevents accidental edits to the wrong row.
+
+The agent flow for UPDATE/DELETE:
+1. Agent asks user for the email of the contact to modify
+2. Agent calls **Get Rows** first to confirm the record exists
+3. Agent calls **Update Row** or **Delete Row** on the confirmed record
+
+### Production Additions (Optional)
+
+Add these lines to the system prompt to make the agent production-safe:
+
+```
+Before calling the delete tool, always ask the user:
+"Are you sure you want to permanently delete [Name]? This cannot be undone."
+Only proceed after the user confirms.
+
+Before calling the create tool, always call get rows first to check if a 
+contact with the same email already exists. If a duplicate is found, inform 
+the user and ask whether to proceed.
+```
+
+### Extending This Workflow
+
+- Swap Google Sheets for **Airtable, Notion, or a SQL database** via MCP — no agent changes required
+- Add a **fifth tool** for bulk export or reporting
+- Connect the MCP Client to a **remote n8n instance** to separate agent and data infrastructure
+
+---
+
+*Data Science Masterminds · AI Agent Accelerator Program*  
+*Built for cohort use. Do not redistribute without permission.*
