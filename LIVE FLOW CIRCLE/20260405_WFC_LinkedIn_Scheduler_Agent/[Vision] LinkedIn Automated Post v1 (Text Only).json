@@ -1,0 +1,215 @@
+{
+  "name": "[Vision] LinkedIn Automated Post v1 (Text Only)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        -64
+      ],
+      "id": "1a8dfd21-2805-4a6b-babb-c0a00fba9cb5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Query', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-gemini-search.geminiSearchToolTool",
+      "typeVersion": 1,
+      "position": [
+        352,
+        160
+      ],
+      "id": "ffd3e638-83a4-4b42-a3e7-06320aeac722",
+      "name": "Gemini Search Tool",
+      "credentials": {
+        "geminiSearchApi": {
+          "id": "7az0sro57GIxXbvr",
+          "name": "KN Gemini Tool API - 4 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "person": "9sdsnHAQzo",
+        "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Text', ``, 'string') }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedInTool",
+      "typeVersion": 1,
+      "position": [
+        480,
+        160
+      ],
+      "id": "c58214f5-06ce-4dbb-a509-37713aeef6b4",
+      "name": "Create a post in LinkedIn",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "XQbkpKQ0U9zMdikX",
+          "name": "KN LinkedIn - 2 DEC 2025"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "Create a LinkedIn post on the specified topic, as per the schedule provided, and post it on LinkedIn.",
+        "options": {
+          "systemMessage": "You’re a LinkedIn content creator. You’re supposed to create a human-like post one line at a time, in a conversational style. You’ll have a search tool and a “create a LinkedIn post” tool. \n\nEach day, you’re going to:\n1. Always begin with Searching a topic \n2. Always use the Sample Post Tool before you generate the post. Then create a post based on the topic by referencing sample post. \n4. Post it on LinkedIn. \n\nSchedule:\n- Monday: Look for any recent updates Microsoft is bringing out in terms of AI, generative AI, Copilot, and other enterprise-level stuff.\n- Tuesday: Look for Google AI-related updates, like Google Gemini, models, LLM, and anything that Google is releasing.\n- Wednesday: Look for Claude-related, Anthropic-related news, and make a post based on that.\n- Thursday: Make a post on AI governance and risks that are popping up across a variety of topics.\n- Friday: Do a post on OpenAI, and basically anything that is highly automated, automated agents.\n- Saturday: Give a counterperspective of AI not doing anything.\n- Sunday: Keep it light and say, overall, what the week has been and the main highlight.\n\nPosting rules:\n- Don’t use emojis anywhere unless required to specify the emojis.\n- Don’t use M dash.\n- The first two lines should create curiosity so the user wants to read more.\n- Don't forget to use the Date and Time tool to check which day it is"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        -64
+      ],
+      "id": "cbde1ece-efe4-4f97-9840-00a6d6107cc8",
+      "name": "LinkedIn Content Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        160
+      ],
+      "id": "33c179da-50da-4f16-b894-985e40067b81",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2SJTu6WKZAZGiw74",
+          "name": "KN GOOGLE API KEY - 15 MAR 2026"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        608,
+        160
+      ],
+      "id": "67ac6148-7c51-4d40-9456-5bcf65697eed",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "https://docs.google.com/document/d/16WxzlZ38NENbgSrkLG5JsfJNhffA1CaXJzBIMHhR6S8/edit?tab=t.0"
+      },
+      "type": "n8n-nodes-base.googleDocsTool",
+      "typeVersion": 2,
+      "position": [
+        736,
+        160
+      ],
+      "id": "28ce1c67-2b41-4fc0-a993-122e9e21adca",
+      "name": "Sample Post",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "0mYcIlhTXujE7YMp",
+          "name": "KN_Google_docs_7th Jan 2026"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "LinkedIn Content Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "LinkedIn Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a post in LinkedIn": {
+      "ai_tool": [
+        [
+          {
+            "node": "LinkedIn Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LinkedIn Content Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "ai_tool": [
+        [
+          {
+            "node": "LinkedIn Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sample Post": {
+      "ai_tool": [
+        [
+          {
+            "node": "LinkedIn Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "5d61c4a7-66ba-46d2-9ec4-552e74bd8281",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "wlG2Nhp4HDeOg53B",
+  "tags": []
+}
