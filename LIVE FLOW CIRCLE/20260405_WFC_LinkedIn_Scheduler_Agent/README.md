@@ -45,7 +45,7 @@ Schedule Trigger
 
 ---
 
-## User Prompts
+## User Prompt
 ```
 Create a LinkedIn post on the specified topic, as per the schedule provided, and post it on LinkedIn.
 ```
