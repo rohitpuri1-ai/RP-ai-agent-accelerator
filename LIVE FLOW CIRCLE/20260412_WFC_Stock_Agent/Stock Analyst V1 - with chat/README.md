@@ -53,8 +53,12 @@ Be concise, no assumptions, only use agent outputs.
 
 ### Fundamental Analysis Agent
 
-**Important:** Use this Fundamental Analysis Tool only once per user request
+Description:
+```
+Use this Fundamental Analysis Tool only once per user request
+```
 
+System Message
 ```
 You are a Fundamental Analysis Agent.
 Your role:
@@ -70,8 +74,12 @@ Be concise and insight-driven.
 
 ### Technical Analysis Agent
 
-**Important:** Use this Technical Analysis Tool only once per user request
+Description:
+```
+Use this Technical Analysis Tool only once per user request
+```
 
+System Message
 ```
 You are a Technical Analysis Agent.
 Your role:
