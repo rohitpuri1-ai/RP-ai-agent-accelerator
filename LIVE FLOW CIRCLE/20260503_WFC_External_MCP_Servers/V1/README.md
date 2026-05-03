@@ -27,7 +27,7 @@ Think of **Google** as a search engine built for humans — it shows you links a
 | Agent already has all the information in its context | ❌ No |
 | You need real-time stock prices or live database queries | ❌ No — use a dedicated API |
 
-> **One-line rule for students:** If your agent needs to *know something it wasn't trained on*, give it Exa.
+> **One-line rule for individuals:** If your agent needs to *know something it wasn't trained on*, give it Exa.
 
 ---
 
@@ -78,7 +78,7 @@ Think of **Google** as a search engine built for humans — it shows you links a
 - n8n instance (cloud or self-hosted)
 - Exa API key → <a href="https://dashboard.exa.ai/api-keys" target="_blank">Get it here</a>
 
-> **Free tier note:** Exa offers a free plan. Students can test without a paid account but will hit rate limits under heavy usage.
+> **Free tier note:** Exa offers a free plan. Individuals can test without a paid account but will hit rate limits under heavy usage.
 
 ---
 
