@@ -1,21 +1,44 @@
-# 📬 Agent KAI — Research + Email Workflow | n8n + Exa MCP + Gmail
+# 🔍 Web Research AI Agent — n8n + Exa MCP
 
-An AI agent that researches any topic using **Exa MCP**, generates structured content ideas, and automatically sends the output via **Gmail** — all from a single chat message. No manual steps. No copy-pasting.
+A conversational AI agent built in n8n that uses **Exa's MCP server** to perform live web search and page fetching. Demonstrates external MCP integration with an n8n AI Agent node using HTTP Streamable transport.
+
+---
+
+## 🧠 What is Exa? (Simple Explanation)
+
+Think of **Google** as a search engine built for humans — it shows you links and snippets so *you* can read and decide.
+
+**Exa** is a search engine built for **AI agents** — it returns clean, structured content that an AI can directly read, understand, and use. No ads. No noise. Just the actual information.
+
+| | Google | Exa |
+|---|---|---|
+| Built for | Humans | AI agents |
+| Returns | Links + snippets | Full readable content |
+| How it searches | Keyword matching | Meaning-based (neural search) |
+| Best used by | You, in a browser | Your AI agent, inside a workflow |
+
+### When should your agent use Exa?
+
+| Situation | Use Exa? |
+|---|---|
+| Agent needs to find current news or recent events | ✅ Yes |
+| Agent needs to read the full content of a webpage | ✅ Yes |
+| Agent needs to research a topic before generating output | ✅ Yes |
+| Agent already has all the information in its context | ❌ No |
+| You need real-time stock prices or live database queries | ❌ No — use a dedicated API |
+
+> **One-line rule for students:** If your agent needs to *know something it wasn't trained on*, give it Exa.
 
 ---
 
 ## 📌 What This Workflow Does
 
-1. User sends a topic or URL via the **Chat Trigger**
-2. **Agent KAI** researches it using Exa's live web search
-3. Generates a structured output:
-   - Research Summary
-   - 10 Tweet Topic Ideas
-   - 10 LinkedIn Post Topic Ideas
-   - Top Content Idea
-4. Formats everything as an **HTML email**
-5. Sends the email via the **Gmail tool** — automatically
-6. Confirms with: `Email sent. — Agent KAI`
+- Accepts a user message via the **Chat Trigger**
+- Routes it to an **AI Agent** (OpenRouter/Gemini) with memory
+- The agent autonomously decides when to call Exa's MCP tools:
+  - `web_search_exa` — searches the live web for any query
+  - `web_fetch_exa` — fetches and reads a full webpage as markdown
+- Returns a structured, cited response back to the user
 
 ---
 
@@ -25,29 +48,26 @@ An AI agent that researches any topic using **Exa MCP**, generates structured co
 [Chat Trigger]
       │
       ▼
-[AI Agent — Agent KAI]
+[AI Agent]
   ├── Model     → OpenRouter Chat Model
   ├── Memory    → Simple Memory (conversation context)
-  └── Tools
-        ├── MCP Client (Exa)
-        │     ├── web_search_exa
-        │     └── web_fetch_exa
-        └── Send a message in Gmail
+  └── Tool      → MCP Client (Exa MCP Server)
+                    ├── web_search_exa
+                    └── web_fetch_exa
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component         | Tool / Service                      |
-|-------------------|-------------------------------------|
-| Workflow Engine   | n8n                                 |
-| AI Model          | OpenRouter (any model via API)      |
-| MCP Server        | Exa (`https://mcp.exa.ai/mcp`)     |
-| Transport         | HTTP Streamable                     |
-| MCP Auth          | Header Auth (`x-api-key`)           |
-| Email Tool        | Gmail (n8n native tool node)        |
-| Memory            | Simple Memory (in-session)          |
+| Component         | Tool / Service              |
+|-------------------|-----------------------------|
+| Workflow Engine   | n8n                         |
+| Chat Model        | Openrouter/Google Gemini free chat models |
+| MCP Server        | Exa (`https://mcp.exa.ai/mcp`) |
+| Transport         | HTTP Streamable             |
+| Auth              | Header Auth (`x-api-key`)   |
+| Memory            | Simple Memory (in-session)  |
 
 ---
 
@@ -56,9 +76,9 @@ An AI agent that researches any topic using **Exa MCP**, generates structured co
 ### 1. Prerequisites
 
 - n8n instance (cloud or self-hosted)
-- OpenRouter API key → [openrouter.ai](https://openrouter.ai)
-- Exa API key → [dashboard.exa.ai/api-keys](https://dashboard.exa.ai/api-keys)
-- Gmail account connected to n8n via OAuth2
+- Exa API key → <a href="https://dashboard.exa.ai/api-keys" target="_blank">Get it here</a>
+
+> **Free tier note:** Exa offers a free plan. Students can test without a paid account but will hit rate limits under heavy usage.
 
 ---
 
@@ -68,11 +88,11 @@ An AI agent that researches any topic using **Exa MCP**, generates structured co
 - Default settings — no changes needed
 
 #### OpenRouter Chat Model
-- Add your OpenRouter API credential
-- Recommended model: `anthropic/claude-3.5-sonnet` or `google/gemini-flash-1.5`
+- Connect your OpenRouter API credential
+- Recommended model: `google/gemini-flash-1.5` (free) or any model of your choice
 
 #### Simple Memory
-- Default settings
+- Default settings — stores conversation history within a session
 
 #### MCP Client (Exa)
 
@@ -83,81 +103,63 @@ An AI agent that researches any topic using **Exa MCP**, generates structured co
 | Authentication     | Header Auth                  |
 | Tools to Include   | All                          |
 
-**Header Auth Credential:**
+**Header Auth Credential setup:**
 
 | Field         | Value               |
 |---------------|---------------------|
 | Header Name   | `x-api-key`         |
 | Header Value  | `your_exa_api_key`  |
 
-#### Send a message in Gmail
-- Connect via Gmail OAuth2 credential
-- No additional configuration needed — the agent controls all parameters (recipient, subject, body) at runtime
-
 ---
 
 ### 3. AI Agent — System Message
 
+Paste this into the AI Agent node's **System Message** field:
+
 ```
-You are Agent KAI, a research assistant with access to Exa tools and Gmail send message tool.
-Your job is to research the user's topic, create content ideas, and send the final result by email.
+You are a research assistant with access to Exa's web search tools.
 
-IMPORTANT EXECUTION RULES:
-1. You must use web_search_exa for research.
-2. If the user gives a URL, use web_fetch_exa.
-3. You must use the Gmail send message tool to send the email.
-4. Never say "Email sent" unless the Gmail send message tool has successfully executed.
-5. If the Gmail tool fails, say: "Email was not sent. Reason: [tool error]"
-6. Do not pretend that an email was sent.
-7. Do not only generate an email draft in chat.
-8. The final chat response must only happen after the Gmail tool runs.
+When the user asks a question:
+- Use web_search_exa for finding current information, news, or general research
+- Use web_fetch_exa when the user provides a specific URL and wants its content
+- Always cite where the information came from
+- Keep responses concise and structured — use bullet points for lists, bold for key takeaways
+- If a search returns irrelevant results, refine and search again before responding
 
-Workflow:
-Step 1: Research the topic using Exa.
-Step 2: Generate:
-- Research Summary
-- 10 Tweet Topic Ideas
-- 10 LinkedIn Post Topic Ideas
-- Top Content Idea
-
-Step 3: Create an HTML email body.
-Step 4: Send the email using Gmail send message tool.
-Step 5: After successful sending, reply only:
-Email sent.
-- Agent KAI
-
-Email must include:
-- Subject line
-- HTML body
-- Source links
-- Clear next step
-- Sign off as Agent KAI
-
-Tone:
-Professional, clear, useful, and insight-driven.
+Do not make up information. If you cannot find something, say so clearly.
 ```
 
 ---
 
 ## 🧪 Test Prompts
 
-### 🟢 Basic — Single topic research + send
+Use these to verify the workflow after setup.
+
+### 🟢 Basic — Confirm tool is working
 ```
-Research "AI agents in 2025" and send the output to myemail@gmail.com
+What are the top 3 AI tools that launched this week?
+```
+```
+What is n8n used for? Search the web and explain it simply.
 ```
 
-### 🟡 Intermediate — URL-based research
+### 🟡 Intermediate — Agent reasoning + tool selection
 ```
-Fetch https://n8n.io and create content ideas based on what the product does. Send to myemail@gmail.com
+Search for "best free MCP servers for AI agents" and list them with their use cases.
 ```
-
-### 🔴 Advanced — Industry-specific content pipeline
 ```
-Research "how Indian retail companies are using AI automation" and generate content ideas for LinkedIn and Twitter. Send the full report to myemail@gmail.com
+Fetch the content of https://n8n.io and summarize what the product does in 5 bullet points.
 ```
 
+### 🔴 Advanced — Real-world simulation
 ```
-Research "n8n vs Make vs Zapier 2025" — create a comparison summary and 10 LinkedIn post ideas around it. Send to myemail@gmail.com
+I'm preparing a training session on AI automation for corporate teams. Search for 3 recent case studies of companies using AI agents and summarize each one.
+```
+```
+Search for "n8n vs Zapier 2025" and give me a comparison table with pros and cons of each.
+```
+```
+Find the Exa documentation page for web search, fetch its content, and explain the difference between neural search and keyword search based on what you find.
 ```
 
 ---
@@ -166,50 +168,25 @@ Research "n8n vs Make vs Zapier 2025" — create a comparison summary and 10 Lin
 
 | Concept | Where it shows up |
 |---|---|
-| External MCP over HTTP | Exa MCP via HTTP Streamable — not stdio |
-| Native n8n tool inside agent | Gmail tool runs as an agent action, not a separate workflow node |
-| Agent execution order enforcement | System message rules prevent hallucinated "Email sent" responses |
-| Multi-tool orchestration | Agent chains: search → generate → format → send |
-| Guardrail prompting | Rules 4–8 prevent the agent from skipping tool calls |
+| External MCP over HTTP | MCP Client node using SSE/Streamable HTTP (not stdio) |
+| Agent tool autonomy | Agent decides when to call `web_search_exa` vs `web_fetch_exa` |
+| Multi-tool chaining | Advanced prompts trigger both tools in a single agent run |
+| Conversation memory | Simple Memory node retains context across turns |
 
 ---
 
-## 📂 Agent KAI Output Structure
+## 📂 Available Exa MCP Tools
 
-Every email sent by Agent KAI includes:
+| Tool | Description |
+|---|---|
+| `web_search_exa` | Search the live web for any topic |
+| `web_fetch_exa` | Read full page content from a URL as clean markdown |
+| `web_search_advanced_exa` | Advanced search with filters, date ranges, domain restrictions *(optional)* |
 
+To enable advanced search, update the endpoint:
 ```
-Subject: [Topic] — Research Report by Agent KAI
-
-[Research Summary]
-
-[10 Tweet Topic Ideas]
-
-[10 LinkedIn Post Topic Ideas]
-
-[Top Content Idea]
-
-Sources:
-- [link 1]
-- [link 2]
-
-Next Step: [suggested action]
-
-— Agent KAI
+https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_exa
 ```
-
----
-
-## ⚠️ Critical Prompting Notes
-
-**Why the execution rules matter:**
-
-LLMs will hallucinate tool execution if not constrained. Without rules 4–8, the agent may:
-- Generate the email draft in chat and claim it was sent
-- Skip the Gmail tool entirely
-- Respond before the tool finishes
-
-The system message forces the agent to treat the Gmail tool call as a hard dependency before producing any final output. This is a pattern your students should replicate in every agentic workflow where a side-effect (email, API call, database write) must be confirmed before the agent responds.
 
 ---
 
@@ -217,13 +194,20 @@ The system message forces the agent to treat the Gmail tool call as a hard depen
 
 | Issue | Fix |
 |---|---|
-| Agent says "Email sent" without sending | Check Gmail OAuth credential is active and has Send permission |
-| Gmail tool not appearing in agent | Ensure it is connected to the **Tool** port of the AI Agent node |
-| Exa tools not loading | Verify `x-api-key` header credential is saved correctly |
-| Agent only generates draft in chat | System message rules 6–8 are missing or overridden — repaste the full system message |
-| 429 from Exa | Add your Exa API key — free plan rate limit hit |
-| OpenRouter model not responding | Check API key and confirm selected model is active on OpenRouter |
+| Tools not appearing after Execute Step | Check that Header Auth credential is correctly saved with `x-api-key` |
+| 429 Rate Limit error | Add your Exa API key — free plan has low limits |
+| Agent not using MCP tools | Ensure the MCP Client is connected to the **Tool** port (not the main input) |
+| Empty search results | Try rephrasing the query — Exa uses neural search, so natural language works better than keywords |
 
 ---
 
-*Built as part of the DSM Applied AI curriculum — n8n + MCP Integration Module | v2: Multi-Tool Agent.*
+## 📎 Resources
+
+- [Exa MCP Documentation](https://exa.ai/docs/reference/exa-mcp)
+- <a href="https://dashboard.exa.ai/api-keys" target="_blank">Exa API Dashboard</a>
+- [n8n MCP Client Node Docs](https://docs.n8n.io)
+- [Exa GitHub (open-source MCP server)](https://github.com/exa-labs/exa-mcp-server)
+
+---
+
+*Built as part of the DSM Applied AI curriculum — n8n + MCP Integration Module.*
