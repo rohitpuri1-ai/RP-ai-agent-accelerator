@@ -4,10 +4,37 @@ A conversational AI agent built in n8n that uses **Exa's MCP server** to perform
 
 ---
 
+## 🧠 What is Exa? (Simple Explanation)
+
+Think of **Google** as a search engine built for humans — it shows you links and snippets so *you* can read and decide.
+
+**Exa** is a search engine built for **AI agents** — it returns clean, structured content that an AI can directly read, understand, and use. No ads. No noise. Just the actual information.
+
+| | Google | Exa |
+|---|---|---|
+| Built for | Humans | AI agents |
+| Returns | Links + snippets | Full readable content |
+| How it searches | Keyword matching | Meaning-based (neural search) |
+| Best used by | You, in a browser | Your AI agent, inside a workflow |
+
+### When should your agent use Exa?
+
+| Situation | Use Exa? |
+|---|---|
+| Agent needs to find current news or recent events | ✅ Yes |
+| Agent needs to read the full content of a webpage | ✅ Yes |
+| Agent needs to research a topic before generating output | ✅ Yes |
+| Agent already has all the information in its context | ❌ No |
+| You need real-time stock prices or live database queries | ❌ No — use a dedicated API |
+
+> **One-line rule for students:** If your agent needs to *know something it wasn't trained on*, give it Exa.
+
+---
+
 ## 📌 What This Workflow Does
 
 - Accepts a user message via the **Chat Trigger**
-- Routes it to an **AI Agent** (Anthropic Claude) with memory
+- Routes it to an **AI Agent** (OpenRouter/Gemini) with memory
 - The agent autonomously decides when to call Exa's MCP tools:
   - `web_search_exa` — searches the live web for any query
   - `web_fetch_exa` — fetches and reads a full webpage as markdown
@@ -22,7 +49,7 @@ A conversational AI agent built in n8n that uses **Exa's MCP server** to perform
       │
       ▼
 [AI Agent]
-  ├── Model     → Anthropic Chat Model (Claude)
+  ├── Model     → OpenRouter Chat Model
   ├── Memory    → Simple Memory (conversation context)
   └── Tool      → MCP Client (Exa MCP Server)
                     ├── web_search_exa
@@ -36,7 +63,7 @@ A conversational AI agent built in n8n that uses **Exa's MCP server** to perform
 | Component         | Tool / Service              |
 |-------------------|-----------------------------|
 | Workflow Engine   | n8n                         |
-| AI Model          | Anthropic Claude (via n8n)  |
+| Chat Model        | Openrouter/Google Gemini free chat models |
 | MCP Server        | Exa (`https://mcp.exa.ai/mcp`) |
 | Transport         | HTTP Streamable             |
 | Auth              | Header Auth (`x-api-key`)   |
@@ -49,8 +76,7 @@ A conversational AI agent built in n8n that uses **Exa's MCP server** to perform
 ### 1. Prerequisites
 
 - n8n instance (cloud or self-hosted)
-- Anthropic API key
-- Exa API key → [Get it here](https://dashboard.exa.ai/api-keys)
+- Exa API key → <a href="https://dashboard.exa.ai/api-keys" target="_blank">Get it here</a>
 
 > **Free tier note:** Exa offers a free plan. Students can test without a paid account but will hit rate limits under heavy usage.
 
@@ -61,9 +87,9 @@ A conversational AI agent built in n8n that uses **Exa's MCP server** to perform
 #### Chat Trigger
 - Default settings — no changes needed
 
-#### Anthropic Chat Model
-- Connect your Anthropic API credential
-- Recommended model: `claude-3-5-sonnet` or `claude-3-haiku` (faster for demos)
+#### OpenRouter Chat Model
+- Connect your OpenRouter API credential
+- Recommended model: `google/gemini-flash-1.5` (free) or any model of your choice
 
 #### Simple Memory
 - Default settings — stores conversation history within a session
@@ -178,7 +204,7 @@ https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa,web_search_advanced_ex
 ## 📎 Resources
 
 - [Exa MCP Documentation](https://exa.ai/docs/reference/exa-mcp)
-- [Exa API Dashboard](https://dashboard.exa.ai/api-keys)
+- <a href="https://dashboard.exa.ai/api-keys" target="_blank">Exa API Dashboard</a>
 - [n8n MCP Client Node Docs](https://docs.n8n.io)
 - [Exa GitHub (open-source MCP server)](https://github.com/exa-labs/exa-mcp-server)
 
