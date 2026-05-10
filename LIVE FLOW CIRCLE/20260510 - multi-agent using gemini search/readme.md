@@ -8,27 +8,6 @@ Each agent builds on the previous one's output, with web search integration to e
 
 ---
 
-## Workflow Diagram
-
-```
-Chat → Orchestrator → Problem Agent → Options Agent → Risks Agent → Recommendation Agent → Final Output
-```
-
----
-
-## What This Framework Does
-
-The PORR Framework breaks down complex decisions into four sequential steps:
-
-1. **Problem** - Defines the core issue using search-based evidence
-2. **Options** - Lists realistic solution paths based on the problem
-3. **Risks** - Identifies weaknesses and limitations of each option
-4. **Recommendation** - Suggests the best path forward with clear reasoning
-
-This prevents rushed decisions and ensures recommendations are grounded in real data, not guesswork.
-
----
-
 ## Step-by-Step Setup Guide
 
 ### Step 1: Add the Chat Trigger
@@ -236,11 +215,74 @@ Output: A grounded and practical recommendation.
 
 ---
 
+## Sample Prompts to Try
+
+### Business Scaling
+```
+My AI automation agency is stuck at 2 lakh per month. I have limited time, no sales team, and I am already doing custom n8n projects. How should I scale to 10 lakh per month without burning out?
+```
+
+### Product Prioritization
+```
+I can build three things next: 1) A lead generation agent for realtors. 2) A review reply automation for local businesses. 3) A Telegram reporting agent for agencies. I have one month of build time. Which should I prioritize and why?
+```
+
+### Hiring Decision
+```
+I am considering hiring a part-time developer to help with n8n flows. Budget is limited and I am worried about quality and management overhead. Should I hire now or delay and keep doing everything myself?
+```
+
+**[Prompt Library →](https://multi-agent-prompt-library.pages.dev/)** *(Additional prompts for different use cases)*
+
+---
+
+## What This Workflow Does
+
+The PORR Framework breaks down complex decisions into four sequential steps:
+
+1. **Problem** - Defines the core issue using search-based evidence
+2. **Options** - Lists realistic solution paths based on the problem
+3. **Risks** - Identifies weaknesses and limitations of each option
+4. **Recommendation** - Suggests the best path forward with clear reasoning
+
+This prevents rushed decisions and ensures recommendations are grounded in real data, not guesswork.
+
+---
+
+## Workflow Diagram
+
+```
+Chat → Orchestrator → Problem Agent → Options Agent → Risks Agent → Recommendation Agent → Final Output
+```
+
+---
+
+## Node Sequence
+
+1. **When chat message received** - Receives complex business questions
+2. **AI Agent (Orchestrator)** - Coordinates sequential analysis
+   - **OpenRouter Chat Model** - Main reasoning engine using `nvidia/nemotron-3-super-120b-a12b:free`
+   - **Simple Memory** - Maintains conversation context
+   - **Problem Agent** - Defines the core issue with search evidence
+     - **OpenRouter Chat Model1** - Uses `nvidia/nemotron-3-super-120b-a12b:free`
+     - **Gemini Search Tool** - Searches for factual problem context
+   - **Options Agent** - Generates realistic solution paths
+     - **OpenRouter Chat Model2** - Uses `nvidia/nemotron-3-super-120b-a12b:free`
+     - **Gemini Search Tool** - Validates solution approaches
+   - **Risks Agent** - Identifies weaknesses and limitations
+     - **OpenRouter Chat Model3** - Uses `nvidia/nemotron-3-super-120b-a12b:free`
+     - **Gemini Search Tool** - Finds real-world risk data
+   - **Recommendation Agent** - Synthesizes best path forward
+     - **OpenRouter Chat Model4** - Uses `nvidia/nemotron-3-super-120b-a12b:free`
+     - **Gemini Search Tool1** - Validates final recommendation
+
+---
+
 ## How It Works
 
 **Step 1: User Asks a Question**
 
-User submits a complex business or strategic question.
+User submits a complex business or strategic question requiring structured analysis.
 
 **Step 2: Problem Agent Analyzes**
 
@@ -309,27 +351,6 @@ Recommendation: [Best option with reasoning]
 
 ---
 
-## Sample Prompts to Try
-
-### Business Scaling
-```
-My AI automation agency is stuck at 2 lakh per month. I have limited time, no sales team, and I am already doing custom n8n projects. How should I scale to 10 lakh per month without burning out?
-```
-
-### Product Prioritization
-```
-I can build three things next: 1) A lead generation agent for realtors. 2) A review reply automation for local businesses. 3) A Telegram reporting agent for agencies. I have one month of build time. Which should I prioritize and why?
-```
-
-### Hiring Decision
-```
-I am considering hiring a part-time developer to help with n8n flows. Budget is limited and I am worried about quality and management overhead. Should I hire now or delay and keep doing everything myself?
-```
-
-**[Prompt Library →](https://multi-agent-prompt-library.pages.dev/)** *(Additional prompts for different use cases)*
-
----
-
 ## Example Output
 
 **Input:**
@@ -371,6 +392,65 @@ vertical.
 
 ---
 
+## Why This Framework Works
+
+Most decision-making fails at one of three points:
+
+1. **Unclear problem definition** - Leads to solving the wrong thing
+2. **Limited options** - Leads to false dilemmas
+3. **Ignored risks** - Leads to unexpected failures
+
+The PORR Framework forces structured thinking:
+
+- **Problem** ensures you're solving the right thing
+- **Options** prevents binary thinking (this OR that)
+- **Risks** surfaces blind spots before commitment
+- **Recommendation** synthesizes everything into action
+
+Each agent searches independently, preventing confirmation bias.
+
+---
+
+## Mental Model
+
+This is not brainstorming.
+
+**This is structured analysis.**
+
+The difference:
+- Brainstorming = Opinions and gut feelings
+- PORR = Evidence-based reasoning
+- Traditional AI = One-shot answers
+- PORR Framework = Multi-perspective validation
+
+Each agent challenges the previous one's output by searching independently.
+
+---
+
+## Architecture Pattern
+
+```
+Question → Problem Search → Options Search → Risks Search → Recommendation Search → Synthesis
+```
+
+Every agent must search before answering. No agent can rely solely on the previous agent's output.
+
+This prevents the "telephone game" effect where errors compound through the chain.
+
+---
+
+## The Core Insight
+
+Good decisions require:
+1. Understanding the real problem
+2. Seeing all options
+3. Knowing the risks
+4. Acting on evidence
+
+This framework ensures you don't skip any step.
+
+---
+
 ## Key Features
 
 **Sequential Processing**
@@ -405,25 +485,6 @@ vertical.
 - Pricing strategy evaluation
 - Partnership opportunity assessment
 - Process optimization choices
-
----
-
-## Why This Framework Works
-
-Most decision-making fails at one of three points:
-
-1. **Unclear problem definition** - Leads to solving the wrong thing
-2. **Limited options** - Leads to false dilemmas
-3. **Ignored risks** - Leads to unexpected failures
-
-The PORR Framework forces structured thinking:
-
-- **Problem** ensures you're solving the right thing
-- **Options** prevents binary thinking (this OR that)
-- **Risks** surfaces blind spots before commitment
-- **Recommendation** synthesizes everything into action
-
-Each agent searches independently, preventing confirmation bias.
 
 ---
 
@@ -472,46 +533,6 @@ To make this production-ready:
 5. **Add input validation** to ensure question quality
 6. **Include cost tracking** for API usage
 7. **Add output formatting** for better readability
-
----
-
-## Mental Model
-
-This is not brainstorming.
-
-**This is structured analysis.**
-
-The difference:
-- Brainstorming = Opinions and gut feelings
-- PORR = Evidence-based reasoning
-- Traditional AI = One-shot answers
-- PORR Framework = Multi-perspective validation
-
-Each agent challenges the previous one's output by searching independently.
-
----
-
-## Architecture Pattern
-
-```
-Question → Problem Search → Options Search → Risks Search → Recommendation Search → Synthesis
-```
-
-Every agent must search before answering. No agent can rely solely on the previous agent's output.
-
-This prevents the "telephone game" effect where errors compound through the chain.
-
----
-
-## The Core Insight
-
-Good decisions require:
-1. Understanding the real problem
-2. Seeing all options
-3. Knowing the risks
-4. Acting on evidence
-
-This framework ensures you don't skip any step.
 
 ---
 
