@@ -1,4 +1,6 @@
-# AI Agent Masterclass by Kunaal Naik
+# AI Agent Accelerator Program by Kunaal Naik
+
+# Account setup
 
 ## LinkedIn AI Agent
 
