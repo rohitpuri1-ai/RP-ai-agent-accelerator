@@ -12,7 +12,16 @@ The system runs on a schedule, processes leads intelligently, and ensures no dup
 
 ### Step 1: Prepare Your Google Sheet
 
-1. Create a Google Sheet with these columns (exact names):
+**Option 1: Use the Template (Recommended)**
+
+1. Open the template sheet: [Lead Nurturing Template](https://docs.google.com/spreadsheets/d/1LmZP5OGl21332_dmg2f3lN-JwXo1ffuPsS7Ezex2gQQ/edit?gid=0#gid=0)
+2. Click **File → Make a copy**
+3. Rename your copy (e.g., "My Lead Nurturing Database")
+4. The template includes sample data to help you understand the structure
+
+**Option 2: Create Your Own Sheet**
+
+Create a Google Sheet with these exact column names:
    - **Customer Name** - Full name of the lead
    - **Phone** - Contact phone number
    - **Email** - Email address
@@ -20,7 +29,7 @@ The system runs on a schedule, processes leads intelligently, and ensures no dup
    - **Lead Status** - Must be: Hot, Warm, or Cold
    - **Email Status** - Leave blank initially (will be marked "Complete" after sending)
 
-2. Add your lead data to the sheet
+**Important:** Column names must match exactly for the workflow to work.
 
 ### Step 2: Add the Schedule Trigger
 
@@ -42,13 +51,7 @@ The system runs on a schedule, processes leads intelligently, and ensures no dup
 3. Choose your preferred Gemini model (e.g., gemini-1.5-flash)
 4. This powers the email personalization logic
 
-### Step 5: Add Simple Memory
-
-1. Inside the AI Agent node, click **"Memory"**
-2. Select **"Simple Memory"**
-3. This helps the agent track which emails it has sent in the current session
-
-### Step 6: Add Gmail Tool
+### Step 5: Add Gmail Tool
 
 1. Inside the AI Agent node, click **"Tool"**
 2. Search for **"Send a message in Gmail"**
@@ -143,7 +146,6 @@ Schedule Trigger → AI Agent → [Gmail + Google Sheets Read + Google Sheets Up
 1. **Schedule Trigger** - Executes workflow at specified intervals
 2. **AI Agent** - Orchestrates the email nurturing process
    - **Google Gemini Chat Model** - Powers personalization logic
-   - **Simple Memory** - Tracks session context
    - **Send a message in Gmail** - Sends personalized emails
    - **Get row(s) in sheet** - Reads lead data from Google Sheets
    - **Update row in sheet** - Marks emails as complete
