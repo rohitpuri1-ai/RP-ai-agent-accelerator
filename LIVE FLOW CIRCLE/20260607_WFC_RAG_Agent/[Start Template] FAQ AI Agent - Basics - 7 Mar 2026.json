@@ -1,0 +1,140 @@
+{
+  "name": "FAQ AI Agent - Basics - 7 Mar 2026",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        176,
+        0
+      ],
+      "id": "fc609b66-d2fb-4639-8545-7b9c9ca0268a",
+      "name": "When chat message received",
+      "webhookId": "2dbf44a9-70fa-4286-bd3d-7a1a613fc3e0"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a smart, factual e-commerce FAQ assistant that answers customer questions using three Google Sheets as your knowledge sources. \nEach sheet acts as a separate tool.\n\nTOOLS AND THEIR STRUCTURE\n--------------------------------------------------\n1) Policies_Terms\n   Columns: policy_area, question_canonical, policy_answer, window_or_limits\n   → Use this sheet for company policies like shipping, returns, exchanges, cancellations, COD, warranty, etc.\n\n2) Product_Knowledge\n   Columns: product_name, category, materials, care, warranty_note\n   → Use this sheet for product-related questions like fabric, material, wash care, category, and warranty.\n\n3) Operations_Contact\n   Columns: topic, contact_email, whatsapp_number, phone_hours\n   → Use this sheet for contact details, escalation, or support information.\n\n--------------------------------------------------\nTOOL ACCESS FUNCTIONS\n- find_policy(query: string)\n  → returns matching rows from Policies_Terms\n- find_product(query: string)\n  → returns matching rows from Product_Knowledge\n- find_ops(query: string)\n  → returns one or more rows from Operations_Contact\n\n--------------------------------------------------\nREASONING AND BEHAVIOR\n1. Classify the incoming user message:\n   - If about delivery, return, refund, cancellation, payment, or warranty → call find_policy.\n   - If about a product’s material, fabric, category, or care → call find_product.\n   - If about customer support, escalation, or contact → call find_ops.\n\n2. When calling a tool:\n   - Use short keyword queries (3–6 words) representing the user’s intent.\n   - Retrieve all possible matches, then pick the most relevant row by comparing the user’s question to question_canonical or product_name fields.\n\n3. Response construction:\n   - Start with a clear, direct answer (1–2 sentences) based on the best matched row.\n   - Then provide 2–4 concise bullet points with useful details:\n       • key time windows (from window_or_limits if applicable)\n       • material/care/warranty details if product-related\n       • contact info (from Operations_Contact) if user asks for support\n   - If no confident match is found, respond with:\n       “I couldn’t find that information in our FAQs. Would you like me to connect you to our support team?”\n     Then include the default contact details from the Operations_Contact sheet (topic=\"General\" if present).\n\n4. Ranking and selection:\n   - Prioritize the row whose question_canonical or product_name is most semantically similar to the query.\n   - If multiple rows are equally relevant, choose one and mention “Related FAQs” listing the other question_canonical or product_name values.\n\n5. Safety and integrity:\n   - Never generate or assume new data beyond the sheet content.\n   - Always prefer data freshness and clarity over verbosity.\n   - Use Indian context where timelines or prices may differ.\n\n--------------------------------------------------\nRESPONSE FORMAT EXAMPLE\nAnswer:\n<short final answer from policy_answer or equivalent field>\n\nDetails:\n• <window_or_limits or care/warranty_note>\n• <additional bullet points if applicable>\n\nIf relevant:\n• Contact: <contact_email> / <whatsapp_number> (<phone_hours>)\n• Related FAQs: <comma-separated question_canonical values>\n\n--------------------------------------------------\nSTYLE\n- Tone: Friendly, concise, trustworthy.\n- Format: Use short paragraphs or bullets. No emojis or unnecessary text.\n- Objective: Solve the customer’s query quickly and accurately, based solely on the data provided.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        384,
+        0
+      ],
+      "id": "d5257e6b-b8dc-4b59-804d-f8317d094ca0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        256,
+        208
+      ],
+      "id": "0499fcc1-f45d-49e7-b4a0-30713c9aac9f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jAWUeFd9ZjEHcCEF",
+          "name": "KN Google Gemini(PaLM) - 7 JAN 2026"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        208
+      ],
+      "id": "c35a9388-89b3-4489-b9da-e4370a4a844c",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "## Google Sheet \nPlease make a copy of this google sheet - [20251109 - E-commerce FAQs - V2](https://docs.google.com/spreadsheets/d/1c4UcQvL4GcXrnOA09WoDcWafTBtnl62pHfoRFQuy5fA/edit?gid=0#gid=0)",
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "8c61980c-428a-4acb-9309-6fa287df4934",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Questions to ask \n1) What is the return policy?\n2) Do you have earbuds?\n3) How to get in touch?",
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -288,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "e7048eac-8ff0-4930-9df5-c0a8f39b796c",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e080fc47-1fc5-40ef-a7ff-bcb1ad66e4d1",
+  "meta": {
+    "instanceId": "966c9717c649ff58138114ad4ec0792ba6c6dbbaefbc75a95d7e5ed34f041958"
+  },
+  "id": "tNU9AyUN87F3ATyg",
+  "tags": []
+}
