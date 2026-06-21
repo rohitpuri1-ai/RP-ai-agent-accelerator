@@ -139,3 +139,8 @@ Saved files:
 Acknowledgement:
 Confirm that the files were cleaned, saved as new CSV files, and that the original files were not overwritten.
 ```
+
+# Creating the MD files
+```
+create a step1_clean_data.md agent so that next time you know what to do when we have new input data
+```
