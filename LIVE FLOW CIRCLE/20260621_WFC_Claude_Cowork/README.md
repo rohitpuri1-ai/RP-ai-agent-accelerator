@@ -167,3 +167,9 @@ take the merged data and create a summary for analytics to used in the next step
 ```
 now I want you to take the summary data and create 2 parallel agents, one agent will create a HTML Dashboard and other Agent will create a executive one slider PPT and place them in a folder called as output - also create step 4-1_dashboard.md and 4-2_executive_ppt.md
 ```
+
+
+# Prompt to save the steps
+```
+Create a claude.md to so we can do these steps next time easily
+```
