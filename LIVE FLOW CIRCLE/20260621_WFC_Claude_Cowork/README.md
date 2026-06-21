@@ -144,3 +144,22 @@ Confirm that the files were cleaned, saved as new CSV files, and that the origin
 ```
 create a step1_clean_data.md agent so that next time you know what to do when we have new input data
 ```
+
+
+
+# Creating a merged CSV
+```
+I want you to create a merged csv which merge the 2 csv files. and save it. tell me what you did.
+```
+
+
+# Creating a merged md file
+```
+create an agent called as step2_merge_data.md - dont create skill, just md file is good.
+```
+
+# Creating Summary
+```
+take the merged data and create a summary for analytics to used in the next steps, create a summary csv and then also create step3_summary.md files
+```
+
